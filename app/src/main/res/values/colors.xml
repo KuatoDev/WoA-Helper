@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default Light Theme -->
+    <color name="purple">#7c4dff</color>
+    <color name="statusbar_background">?attr/colorSurfaceVariant</color>
+    <color name="yellow">#ffb300</color>
+    <color name="layout_background">#FFE2E2E2</color>
+    <color name="greyout">#5a000000</color>
+    <color name="textColor">@color/colorPrimary</color>
+    <color name="green">@android:color/holo_green_light</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="orange">@color/firebase_orange</color>
+    <color name="icon_bg">@color/firebase_orange</color>
+    <color name="red">#FFD40000</color>
+    <color name="blue">#FF1387B1</color>
+    <color name="colorAccent">?attr/colorAccent</color>
+    <color name="white_translucent">#3ACDCDCD</color>
+    <color name="firebase_yellow">#FFCA28</color>
+    <color name="firebase_amber">#FFA000</color>
+    <color name="firebase_orange">#F57C00</color>
+    <color name="firebase_blue">#039BE5</color>
+    <color name="firebase_navy">#2C384A</color>
+    <color name="firebase_coral">#FF8A65</color>
+    <color name="firebase_grey">#ECEFF1</color>
+    <color name="translucent">#ffEDEDED</color>
+    <color name="semibackground">#FFEDEDED</color>
+    <color name="colorPrimary">#ff6750a4</color>
+    <color name="colorOnPrimary">#ffffffff</color>
+    <color name="colorPrimaryContainer">#ffeaddff</color>
+    <color name="colorOnPrimaryContainer">#ff21005d</color>
+    <color name="colorPrimaryInverse">#ffd0bcff</color>
+    <color name="colorSecondary">#ff625b71</color>
+    <color name="colorOnSecondary">#ffffffff</color>
+    <color name="colorSecondaryContainer">#ffe8def8</color>
+    <color name="colorOnSecondaryContainer">#ff1d192b</color>
+    <color name="colorTertiary">#ff7d5260</color>
+    <color name="colorOnTertiary">#ffffffff</color>
+    <color name="colorTertiaryContainer">#ffffd8e4</color>
+    <color name="colorOnTertiaryContainer">#ff31111d</color>
+    <color name="colorSurface">#fffffbfe</color>
+    <color name="colorOnSurface">#ff1c1b1f</color>
+    <color name="colorSurfaceVariant">#ffe7e0ec</color>
+    <color name="colorOnSurfaceVariant">#ff49454f</color>
+    <color name="colorSurfaceInverse">#ff313033</color>
+    <color name="colorOnSurfaceInverse">#fff4eff4</color>
+
+</resources>

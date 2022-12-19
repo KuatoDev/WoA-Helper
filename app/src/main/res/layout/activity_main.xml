@@ -1,0 +1,268 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/toolbarlayout"
+            layout="@layout/toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="2dp"
+            android:orientation="vertical"
+            android:padding="24dp" >
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_backup_boot"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:animateLayoutChanges="true"
+                android:clickable="true"
+                android:elevation="@dimen/cardElevation"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/parentMargin"
+                android:stateListAnimator="@anim/state_list_anim"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardMaxElevation="0dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_backup_boot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTop="@drawable/ic_disk"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_backup_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_dump_sensor"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:animateLayoutChanges="true"
+                android:clickable="true"
+                android:elevation="@dimen/cardElevation"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/parentMargin"
+                android:stateListAnimator="@anim/state_list_anim"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardMaxElevation="0dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_dump_sensor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTint="@color/blue"
+                        android:drawableTop="@drawable/ic_sensor"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_sensor_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_dump_modem"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:animateLayoutChanges="true"
+                android:clickable="true"
+                android:elevation="@dimen/cardElevation"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/parentMargin"
+                android:stateListAnimator="@anim/state_list_anim"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardMaxElevation="0dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_dump_modem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTop="@drawable/ic_modem"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_modem_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_flash_uefi"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:animateLayoutChanges="true"
+                android:clickable="true"
+                android:elevation="@dimen/cardElevation"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/parentMargin"
+                android:stateListAnimator="@anim/state_list_anim"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardMaxElevation="0dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_flash_uefi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTop="@drawable/ic_uefi"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_uefi_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:textStyle="italic"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_quickboot"
+                style="@style/Widget.Material3.CardView.Filled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:animateLayoutChanges="true"
+                android:clickable="true"
+                android:elevation="@dimen/cardElevation"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/parentMargin"
+                android:stateListAnimator="@anim/state_list_anim"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/cardCornerRadius"
+                app:cardMaxElevation="0dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_quick_boot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTint="@color/blue"
+                        android:drawableTop="@drawable/ic_launcher_foreground"
+                        
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_boot_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <id.kuato.verncopyright.BlurLayout
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clipToOutline="true" />
+
+    <TextView
+        android:id="@+id/tvAppCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="4dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,34 @@
+<resources>
+
+    <string name="app_name">WOA Helper - Vayu</string>
+    <string name="error_title">An unexpected error occurred.\nSorry for the inconvenience.</string>
+    <string name="app_title">Windows on ARM Helper - Vayu</string>
+    <string name="app_subtitle">Beta Version"</string>
+
+    <string name="dump_sensors_title">DUMP SENSORS</string>
+    <string name="dump_modem_title">DUMP MODEM</string>
+    <string name="quickboot_title">QUICKBOOT TO WINDOWS</string>
+    <string name="backup_boot_title">BACKUP ANDROID BOOT</string>
+
+    <string name="dump_sensors_question">Dump sensors to Windows partition?</string>
+    <string name="dump_modem_question">Dump modem1st and modem2st to Windows partition?</string>
+    <string name="quickboot_question">Quick Boot to Windows?</string>
+    <string name="backup_boot_question">Backup current android boot to Internal Storage?</string>
+
+    <string name="dump_sensors_subtitle">Dump sensors to Windows is required one time only to repair the sensors on Windows</string>
+    <string name="dump_modem_subtitle">Dump modem1st and modem2st to Windows to fix LTE on SIM1 on Windows everytime you want to boot to Windows</string>
+    <string name="backup_boot_subtitle">Dump Modem, Flash UEFI, and Reboot to Windows in one click</string>
+    <string name="quickboot_subtitle">Dump Modem, Flash UEFI, and Boot to Windows in One Click</string>
+
+    <string name="yes">YES</string>
+    <string name="dismiss">DISMISS</string>
+    <string name="please_wait">PLEASE_WAIT...</string>
+
+    <string name="flash_uefi_title">FLASH UEFI</string>
+    <string name="flash_uefi_subtitle">UEFI for %s touch panel of %s GB variant is ready to flash</string>
+    <string name="uefi_not_found">UEFI NOT FOUND</string>
+    <string name="uefi_not_found_subtitle">Please Download UEFI for VAYU and extract UEFI Folder to INTERNAL STORAGE</string>
+
+    <string name="flash_uefi_question">Flash UEFI for %s touch panel for %s GB of RAM variant?</string>
+
+</resources>
