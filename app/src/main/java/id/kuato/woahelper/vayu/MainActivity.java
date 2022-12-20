@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                               try {
                                                 String run =
                                                     ShellUtils.Executer(
-                                                        "su -c setenforce 0 && su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c cp -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c cp -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
+                                                        "su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c cp -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c cp -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
                                                             + panel
                                                             + "-"
                                                             + ramvalue
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                                               try {
                                                 String run =
                                                     ShellUtils.Executer(
-                                                        "su -c setenforce 0 && su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c cp -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c cp -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows");
+                                                        "su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c cp -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c cp -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows");
                                                 messages.setText(run);
                                               } catch (Exception error) {
                                                 error.printStackTrace();
