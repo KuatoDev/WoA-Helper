@@ -88,39 +88,29 @@ public class MainActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
                     yesButton.setVisibility(View.GONE);
+                    dismissButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
                     new Handler()
-                        .post(
+                        .postDelayed(
                             new Runnable() {
                               @Override
                               public void run() {
                                 try {
-                                  new Handler()
-                                      .postDelayed(
-                                          new Runnable() {
-                                            @Override
-                                            public void run() {
-                                              try {
-                                                String run =
-                                                    ShellUtils.Executer(
-                                                        "su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
-                                                            + panel
-                                                            + "-"
-                                                            + ramvalue
-                                                            + "gb-v2.1.0.img of=/dev/block/by-name/boot && su -c reboot");
-                                                messages.setText(run);
-                                              } catch (Exception error) {
-                                                error.printStackTrace();
-                                              }
-                                            }
-                                          },
-                                          1000);
+                                  String run =
+                                      ShellUtils.Executer(
+                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
+                                              + panel
+                                              + "-"
+                                              + ramvalue
+                                              + "gb-v2.1.0.img of=/dev/block/by-name/boot && su -c reboot");
+                                  messages.setText(run);
+                                  dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
-                                  String results = error.toString();
                                 }
                               }
-                            });
+                            },
+                            1000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -151,43 +141,33 @@ public class MainActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
                     yesButton.setVisibility(View.GONE);
+                    dismissButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
                     new Handler()
-                        .post(
+                        .postDelayed(
                             new Runnable() {
                               @Override
                               public void run() {
                                 try {
-                                  new Handler()
-                                      .postDelayed(
-                                          new Runnable() {
-                                            @Override
-                                            public void run() {
-                                              try {
-                                                String r =
-                                                    ShellUtils.Executer(
-                                                        "su -c rm -r /mnt/Windows && mkdir /mnt/Windows "
-                                                            + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                                            + "&& su -c mkdir /mnt/persist "
-                                                            + "&& su -c mount /dev/block/by-name/persist "
-                                                            + "&& su -c mv -v /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-                                                            + "&& su -c umount /mnt/persist "
-                                                            + "&& su -c umount.ntfs /mnt/Windows"
-                                                            + "&& su -c rm -v -d /mnt/persist "
-                                                            + "&& su -c rm -v -d /mnt/Windows ");
-                                                messages.setText(r);
-                                              } catch (Exception error) {
-                                                error.printStackTrace();
-                                              }
-                                            }
-                                          },
-                                          2000);
+                                  String r =
+                                      ShellUtils.Executer(
+                                          "su -c rm -r /mnt/Windows && mkdir /mnt/Windows "
+                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                              + "&& su -c mkdir /mnt/persist "
+                                              + "&& su -c mount /dev/block/by-name/persist "
+                                              + "&& su -c mv -v /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                              + "&& su -c umount /mnt/persist "
+                                              + "&& su -c umount.ntfs /mnt/Windows"
+                                              + "&& su -c rm -v -d /mnt/persist "
+                                              + "&& su -c rm -v -d /mnt/Windows ");
+                                  messages.setText(r);
+                                  dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
-                                  String results = error.toString();
                                 }
                               }
-                            });
+                            },
+                            2000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -217,36 +197,26 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
+                    dismissButton.setVisibility(View.GONE);
                     yesButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
                     new Handler()
-                        .post(
+                        .postDelayed(
                             new Runnable() {
                               @Override
                               public void run() {
                                 try {
-                                  new Handler()
-                                      .postDelayed(
-                                          new Runnable() {
-                                            @Override
-                                            public void run() {
-                                              try {
-                                                String run =
-                                                    ShellUtils.Executer(
-                                                        "su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows");
-                                                messages.setText(run);
-                                              } catch (Exception error) {
-                                                error.printStackTrace();
-                                              }
-                                            }
-                                          },
-                                          2000);
+                                  String run =
+                                      ShellUtils.Executer(
+                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows");
+                                  messages.setText(run);
+                                  dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
-                                  String results = error.toString();
                                 }
                               }
-                            });
+                            },
+                            2000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -277,40 +247,30 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
+                    dismissButton.setVisibility(View.GONE);
                     yesButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
                     new Handler()
-                        .post(
+                        .postDelayed(
                             new Runnable() {
                               @Override
                               public void run() {
                                 try {
-                                  new Handler()
-                                      .postDelayed(
-                                          new Runnable() {
-                                            @Override
-                                            public void run() {
-                                              try {
-                                                String run =
-                                                    ShellUtils.Executer(
-                                                        "su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
-                                                            + panel
-                                                            + "-"
-                                                            + ramvalue
-                                                            + "gb-v2.1.0.img of=/dev/block/by-name/boot");
-                                                messages.setText(run);
-                                              } catch (Exception error) {
-                                                error.printStackTrace();
-                                              }
-                                            }
-                                          },
-                                          2000);
+                                  String run =
+                                      ShellUtils.Executer(
+                                          "su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
+                                              + panel
+                                              + "-"
+                                              + ramvalue
+                                              + "gb-v2.1.0.img of=/dev/block/by-name/boot");
+                                  messages.setText(run);
+                                  dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
-                                  String results = error.toString();
                                 }
                               }
-                            });
+                            },
+                            2000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -340,36 +300,26 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
+                    dismissButton.setVisibility(View.GONE);
                     yesButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
                     new Handler()
-                        .post(
+                        .postDelayed(
                             new Runnable() {
                               @Override
                               public void run() {
                                 try {
-                                  new Handler()
-                                      .postDelayed(
-                                          new Runnable() {
-                                            @Override
-                                            public void run() {
-                                              try {
-                                                String run =
-                                                    ShellUtils.Executer(
-                                                        "su -c dd -v if=/dev/block/by-name/boot of=/sdcard/boot.img");
-                                                messages.setText("[INTERNAL STORAGE]/boot.img");
-                                              } catch (Exception error) {
-                                                error.printStackTrace();
-                                              }
-                                            }
-                                          },
-                                          2000);
+                                  String run =
+                                      ShellUtils.Executer(
+                                          "su -c dd -v if=/dev/block/by-name/boot of=/sdcard/boot.img");
+                                  messages.setText("[INTERNAL STORAGE]/boot.img");
+                                  dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
-                                  String results = error.toString();
                                 }
                               }
-                            });
+                            },
+                            2000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
