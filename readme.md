@@ -8,11 +8,11 @@ We're not responsible for bricked devices, missing recovery partitions, dead mic
 
 ## Project status
 
-Beta. Most of the feature works, but some cases may do not work. read requirements clearly.
+Beta. Most of the feature works, but some cases may do not work. read [requirements](https://github.com/KuatoDev/WoA-Helper/edit/main/readme.md#requirements) clearly.
 
 #### Features
 - [x] Backup Android Boot ```will be stored in internal storage```
-- [x] Flash UEFI ```to use the uefi flashing feature, you need to place the uefi image to /sdcard/vayu-uefi-v2.1.0-release/```
+- [x] Flash UEFI ```to use the URFI flashing feature, you need to place the UEFI image to /sdcard/vayu-uefi-v2.1.0-release/```
 - [x] Dump Sensors to Windows Partition 
 - [x] Provisioning Modem
 - [x] Quick Boot to Windows
@@ -20,9 +20,14 @@ Beta. Most of the feature works, but some cases may do not work. read requiremen
 ## Requirements
 <details> 
 <summary><strong>Requirements</strong></summary>
+
 • Android 11 and up
+
 • Custom ROM with supported to mount ntfs-3g 
+
 • Rooted Devices
+
 • [Poco X3 Pro with installed Windows OS](https://github.com/Icesito68/Port-Windows-11-Poco-X3-pro/blob/main/README.md)
+
 • UEFI Files from [HERE](https://github.com/degdag/edk2-msm/releases/latest)
 </details>
