@@ -27,12 +27,6 @@ public class MainActivity extends AppCompatActivity {
   int ram;
   int ramvalue;
   String panel;
-  String su = "su -c";
-  String permissive = "setenforce 0";
-  String mkdir = "mkdir /mnt/Windows";
-  String mount = "mount.ntfs /dev/block/by-name/win /mnt/Windows ";
-  String umount = "umount /mnt/Windows";
-  String rmdir = "rm -r /mnt/Windows";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                               @Override
                               public void run() {
                                 try {
-                                  //  dumpsensor();
                                   new Handler()
                                       .postDelayed(
                                           new Runnable() {
@@ -232,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
                               @Override
                               public void run() {
                                 try {
-                                  // dumpmodem();
                                   new Handler()
                                       .postDelayed(
                                           new Runnable() {
@@ -293,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
                               @Override
                               public void run() {
                                 try {
-                                  //   flashuefi();
                                   new Handler()
                                       .postDelayed(
                                           new Runnable() {
@@ -357,7 +348,6 @@ public class MainActivity extends AppCompatActivity {
                               @Override
                               public void run() {
                                 try {
-                                  //   backupboot();
                                   new Handler()
                                       .postDelayed(
                                           new Runnable() {
@@ -446,108 +436,6 @@ public class MainActivity extends AppCompatActivity {
       x.tvUefiSubtitle.setVisibility(View.VISIBLE);
     }
   }
-  /*
-  public void dumpsensor() {
-    new Handler()
-        .postDelayed(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  ShellUtils.Executer(
-                      "su -c rm -r /mnt/Windows && mkdir /mnt/Windows "
-                          + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                          + "&& su -c mkdir /mnt/persist "
-                          + "&& su -c mount /dev/block/by-name/persist "
-                          + "&& su -c cp -v /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-                          + "&& su -c umount /mnt/persist "
-                          + "&& su -c umount.ntfs /mnt/Windows"
-                          + "&& su -c rm -v -d /mnt/persist "
-                          + "&& su -c rm -v -d /mnt/Windows ");
-
-                } catch (Exception error) {
-                  error.printStackTrace();
-                }
-              }
-            },
-            2000);
-  }
-  /*
-  public void dumpmodem() {
-    new Handler()
-        .postDelayed(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  String s =
-                      ShellUtils.Executer(
-                          "su -c setenforce 0 && su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c cp -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c cp -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows");
-                } catch (Exception error) {
-                  error.printStackTrace();
-                }
-              }
-            },
-            2000);
-  }
-  /*
-    public void backupboot() {
-      new Handler()
-          .postDelayed(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    ShellUtils.Executer("su -c dd if=/dev/block/by-name/boot of=/sdcard/boot.img");
-                  } catch (Exception error) {
-                    error.printStackTrace();
-                  }
-                }
-              },
-              2000);
-    }
-  /*
-    public void flashuefi() {
-      new Handler()
-          .postDelayed(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    ShellUtils.Executer(
-                        "su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
-                            + panel
-                            + "-"
-                            + ramvalue
-                            + "gb-v2.1.0.img of=/dev/block/by-name/boot");
-                  } catch (Exception error) {
-                    error.printStackTrace();
-                  }
-                }
-              },
-              2000);
-    }
-  /*
-    public void quickboot() {
-      new Handler()
-          .postDelayed(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    ShellUtils.Executer(
-                        "su -c setenforce 0 && su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c cp -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c cp -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
-                            + panel
-                            + "-"
-                            + ramvalue
-                            + "gb-v2.1.0.img of=/dev/block/by-name/boot && su -c reboot");
-                  } catch (Exception error) {
-                    error.printStackTrace();
-                  }
-                }
-              },
-              1000);
-    }*/
 
   public void ShowBlur() {
     x.blur.setVisibility(View.VISIBLE);
