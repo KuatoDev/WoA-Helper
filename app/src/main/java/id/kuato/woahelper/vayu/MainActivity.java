@@ -151,16 +151,16 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                   String r =
                                       ShellUtils.Executer(
-                                          "su -c rm -r /mnt/Windows && mkdir /mnt/Windows "
+                                          "su -c mkdir /mnt/Windows "
                                               + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
                                               + "&& su -c mkdir /mnt/persist "
                                               + "&& su -c mount /dev/block/by-name/persist "
-                                              + "&& su -c mv -v /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                              + "&& su -c mv /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
                                               + "&& su -c umount /mnt/persist "
-                                              + "&& su -c umount.ntfs /mnt/Windows"
-                                              + "&& su -c rm -v -d /mnt/persist "
-                                              + "&& su -c rm -v -d /mnt/Windows ");
-                                  messages.setText(r);
+                                              + "&& su -c umount /mnt/Windows"
+                                              + "&& su -c rm -d /mnt/persist "
+                                              + "&& su -c rm -d /mnt/Windows");
+                                  messages.setText("Provisioning Sensors finished...");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
@@ -311,8 +311,9 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                   String run =
                                       ShellUtils.Executer(
-                                          "su -c dd -v if=/dev/block/by-name/boot of=/sdcard/boot.img");
-                                  messages.setText("[INTERNAL STORAGE]/boot.img");
+                                          "su -c dd if=/dev/block/by-name/boot of=/sdcard/boot.img");
+                                  messages.setText(
+                                      "Dump boot image successfull in [INTERNAL STORAGE]/boot.img");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
@@ -350,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         ramvalue = 6;
       }
     } catch (NumberFormatException n) {
-      System.out.println("Fail anjeng " + n);
+      System.out.println(n);
     }
 
     String run = ShellUtils.Executer("su -c cat /proc/cmdline");
