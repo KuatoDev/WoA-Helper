@@ -13,7 +13,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 import com.google.android.material.button.MaterialButton;
-#import com.itsaky.androidide.logsender.LogSender;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
 import id.kuato.woahelper.util.MemoryUtils;
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    // Remove this line if you don't want AndroidIDE to show this app's logs
- #   LogSender.startLogging(this);
     super.onCreate(savedInstanceState);
     // Inflate and get instance of binding
     x = ActivityMainBinding.inflate(getLayoutInflater());
