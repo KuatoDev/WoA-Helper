@@ -8,7 +8,7 @@ We're not responsible for bricked devices, missing recovery partitions, dead mic
 
 ## Project status
 
-Beta. Most of the feature works, but some cases may do not work. read [requirements](https://github.com/KuatoDev/WoA-Helper/readme.md#requirements) clearly.
+Beta. Most of the feature works, but some cases may do not work. read [requirements](https://github.com/KuatoDev/WoA-Helper#requirements) clearly.
 
 #### Features
 - [x] Backup Android Boot ```will be stored in internal storage```
