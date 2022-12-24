@@ -13,7 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 import com.google.android.material.button.MaterialButton;
-//import com.itsaky.androidide.logsender.LogSender;
+#import com.itsaky.androidide.logsender.LogSender;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
 import id.kuato.woahelper.util.MemoryUtils;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     // Remove this line if you don't want AndroidIDE to show this app's logs
- //   LogSender.startLogging(this);
+ #   LogSender.startLogging(this);
     super.onCreate(savedInstanceState);
     // Inflate and get instance of binding
     x = ActivityMainBinding.inflate(getLayoutInflater());
@@ -98,7 +98,13 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                   String run =
                                       ShellUtils.Executer(
-                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
+                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
+                                              + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
+                                              + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
+                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                              + "&& su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                              + "&& su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                              + "&& su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
                                               + panel
                                               + "-"
                                               + ramvalue
@@ -208,7 +214,13 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                   String run =
                                       ShellUtils.Executer(
-                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 && su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 && su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows && su -c mount.ntfs /dev/block/by-name/win /mnt/Windows && su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && su -c umount /mnt/Windows");
+                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
+                                              + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
+                                              + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
+                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                              + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                              + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                              + "&& su -c umount /mnt/Windows");
                                   messages.setText(run);
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
@@ -312,8 +324,7 @@ public class MainActivity extends AppCompatActivity {
                                   String run =
                                       ShellUtils.Executer(
                                           "su -c dd if=/dev/block/by-name/boot of=/sdcard/boot.img");
-                                  messages.setText(
-                                      "Dump boot image successfull in [INTERNAL STORAGE]/boot.img");
+                                  messages.setText("Backup boot image successful...");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();

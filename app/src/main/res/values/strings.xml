@@ -17,12 +17,12 @@
 
     <string name="dump_sensors_subtitle">Dump sensors to Windows is required one time only to repair the sensors on Windows</string>
     <string name="dump_modem_subtitle">Dump modem1st and modem2st to Windows to fix LTE on SIM1 on Windows everytime you want to boot to Windows</string>
-    <string name="backup_boot_subtitle">Dump Modem, Flash UEFI, and Reboot to Windows in one click</string>
-    <string name="quickboot_subtitle">Dump Modem, Flash UEFI, and Boot to Windows in One Click</string>
+    <string name="backup_boot_subtitle">Backup boot image to internal storage</string>
+    <string name="quickboot_subtitle">Dump Modem, Flash UEFI, and Reboot to Windows in one click</string>
 
     <string name="yes">YES</string>
     <string name="dismiss">DISMISS</string>
-    <string name="please_wait">PLEASE_WAIT...</string>
+    <string name="please_wait">PLEASE WAIT...</string>
 
     <string name="flash_uefi_title">FLASH UEFI</string>
     <string name="flash_uefi_subtitle">UEFI for %s touch panel of %s GB variant is ready to flash</string>
