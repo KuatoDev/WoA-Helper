@@ -130,63 +130,67 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvDumpSensor.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            yesButton.setVisibility(View.VISIBLE);
-            ShowBlur();
-            icons.setImageDrawable(sensors);
-            messages.setText(getString(R.string.dump_sensors_question));
-            yesButton.setText(getString(R.string.yes));
-            yesButton.setOnClickListener(
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    yesButton.setVisibility(View.GONE);
-                    dismissButton.setVisibility(View.GONE);
-                    messages.setText(getString(R.string.please_wait));
-                    new Handler()
-                        .postDelayed(
-                            new Runnable() {
-                              @Override
-                              public void run() {
-                                try {
-                                  String r =
-                                      ShellUtils.Executer(
-                                          "su -c mkdir /mnt/Windows "
-                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                              + "&& su -c mkdir /mnt/persist "
-                                              + "&& su -c mount /dev/block/by-name/persist "
-                                              + "&& su -c mv /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-                                              + "&& su -c umount /mnt/persist "
-                                              + "&& su -c umount /mnt/Windows"
-                                              + "&& su -c rm -d /mnt/persist "
-                                              + "&& su -c rm -d /mnt/Windows");
-                                  messages.setText("Provisioning Sensors finished...");
-                                  dismissButton.setVisibility(View.VISIBLE);
-                                } catch (Exception error) {
-                                  error.printStackTrace();
-                                }
-                              }
-                            },
-                            2000);
-                  }
-                });
-            dismissButton.setText(getString(R.string.dismiss));
-            dismissButton.setOnClickListener(
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    HideBlur();
-                    dialog.dismiss();
-                  }
-                });
-            dialog.setCancelable(false);
-            dialog.show();
-          }
-        });
-
+    x.cvDumpSensor.setVisibility(View.GONE);
+    
+    /*
+        x.cvDumpSensor.setOnClickListener(
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                yesButton.setVisibility(View.VISIBLE);
+                ShowBlur();
+                icons.setImageDrawable(sensors);
+                messages.setText(getString(R.string.dump_sensors_question));
+                yesButton.setText(getString(R.string.yes));
+                yesButton.setOnClickListener(
+                    new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                        yesButton.setVisibility(View.GONE);
+                        dismissButton.setVisibility(View.GONE);
+                        messages.setText(getString(R.string.please_wait));
+                        new Handler()
+                            .postDelayed(
+                                new Runnable() {
+                                  @Override
+                                  public void run() {
+                                    try {
+                                      String r =
+                                          ShellUtils.Executer(
+                                              "su -c mkdir /mnt/Windows "
+                                                  + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                                  + "&& su -c mkdir /mnt/persist "
+                                                  + "&& su -c mount /dev/block/by-name/persist "
+                                                  + "&& su -c mv /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                                  + "&& su -c umount /mnt/persist "
+                                                  + "&& su -c umount /mnt/Windows"
+                                                  + "&& su -c rm -d /mnt/persist "
+                                                  + "&& su -c rm -d /mnt/Windows");
+                                      messages.setText("Provisioning Sensors finished...");
+                                      dismissButton.setVisibility(View.VISIBLE);
+                                    } catch (Exception error) {
+                                      error.printStackTrace();
+                                    }
+                                  }
+                                },
+                                2000);
+                      }
+                    });
+                dismissButton.setText(getString(R.string.dismiss));
+                dismissButton.setOnClickListener(
+                    new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                        HideBlur();
+                        dialog.dismiss();
+                      }
+                    });
+                dialog.setCancelable(false);
+                dialog.show();
+              }
+            });
+    */
+    
     x.cvDumpModem.setOnClickListener(
         new View.OnClickListener() {
           @Override
