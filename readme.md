@@ -1,6 +1,6 @@
 # WoA-Helper-Vayu
 
-<img align="center" src="https://github.com/KuatoDev/WoA-Helper/blob/60cccc008aa9804f69ad7f3bd374cf83f7931bcf/banner.webp" width="425" alt="banner">
+<img align="center" src="https://github.com/KuatoDev/WoA-Helper/blob/main/banner.webp" width="425" alt="banner">
 
 ## ⚠️ **DISCLAIMER**
 
