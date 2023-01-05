@@ -12,7 +12,7 @@ Beta. Most of the feature works, but some cases may do not work. read [requireme
 
 #### Features
 - [x] Backup Android Boot ```will be stored in internal storage```
-- [x] Flash UEFI ```to use the URFI flashing feature, you need to place the UEFI image to /sdcard/vayu-uefi-v2.1.0-release/```
+- [x] Flash UEFI ```to use the UEFI flashing feature, you need to place the UEFI image to /sdcard/vayu-uefi-v2.1.0-release/```
 - [x] Dump Sensors to Windows Partition 
 - [x] Provisioning Modem
 - [x] Quick Boot to Windows
