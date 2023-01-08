@@ -3,7 +3,7 @@
     <string name="app_name">WOA Helper - Vayu</string>
     <string name="error_title">An unexpected error occurred.\nSorry for the inconvenience.</string>
     <string name="app_title">Windows on ARM Helper - Vayu</string>
-    <string name="app_subtitle">Beta Version"</string>
+    <string name="app_subtitle">v1.0"</string>
 
     <string name="dump_sensors_title">DUMP SENSORS</string>
     <string name="dump_modem_title">DUMP MODEM</string>
@@ -19,6 +19,19 @@
     <string name="dump_modem_subtitle">Dump modem1st and modem2st to Windows to fix LTE on SIM1 on Windows everytime you want to boot to Windows</string>
     <string name="backup_boot_subtitle">Backup boot image to internal storage</string>
     <string name="quickboot_subtitle">Dump Modem, Flash UEFI, and Reboot to Windows in one click</string>
+
+    <string name="ramvalue">MEMORY : %sGB</string>
+    <string name="paneltype">PANEL : %s</string>
+
+    <string name="uefi_version">UEFI : %s</string>
+    <string name="backup_status">BOOT BACKUP : %s</string>
+
+    <string name="finduefi">find /sdcard/vayu-uefi-v2.1.0-release -type d -printf "%f\n"</string>
+    <string name="findbackup">find /sdcard/boot.img -type f -printf "%f\n"</string>
+
+    <string name="guide">GUIDE</string>
+    <string name="group">GROUP</string>
+    <string name="not_found">Not Found</string>
 
     <string name="yes">YES</string>
     <string name="dismiss">DISMISS</string>

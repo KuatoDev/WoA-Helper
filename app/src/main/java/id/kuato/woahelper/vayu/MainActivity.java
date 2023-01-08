@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.net.Uri;
+import android.content.Intent;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 import com.google.android.material.button.MaterialButton;
+//import com.itsaky.androidide.logsender.LogSender;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
 import id.kuato.woahelper.util.MemoryUtils;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    // Remove this line if you don't want AndroidIDE to show this app's logs
+    //LogSender.startLogging(this);
     super.onCreate(savedInstanceState);
     // Inflate and get instance of binding
     x = ActivityMainBinding.inflate(getLayoutInflater());
@@ -71,6 +76,47 @@ public class MainActivity extends AppCompatActivity {
         BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
             getColor(R.color.colorPrimary), BlendModeCompat.SRC_IN));
 
+    x.tvRamvalue.setText(String.format(getString(R.string.ramvalue), ramvalue));
+    x.tvPanel.setText(String.format(getString(R.string.paneltype), panel));
+
+    String uefiname = ShellUtils.Executer(getString(R.string.finduefi));
+    String findbackup = ShellUtils.Executer(getString(R.string.findbackup));
+
+    if (uefiname.isEmpty()) {
+      uefiname = getString(R.string.not_found);
+      x.tvUefiVersion.setTextColor(R.color.red);
+    }
+    if (findbackup.isEmpty()) {
+      findbackup = getString(R.string.not_found);
+      x.tvBackupStatus.setTextColor(R.color.red);
+    }
+
+    x.tvUefiVersion.setText(
+        String.format(getString(R.string.uefi_version), uefiname.replace("/sdcard/", "")));
+    x.tvBackupStatus.setText(
+        String.format(getString(R.string.backup_status), findbackup.replace("/sdcard/", "")));
+    x.cvGuide.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            String url = "https://github.com/Icesito68/Port-Windows-11-Poco-X3-pro";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+          }
+        });
+
+    x.cvGroup.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            String url = "https://t.me/winonvayu";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+          }
+        });
+
     x.cvQuickboot.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -99,14 +145,14 @@ public class MainActivity extends AppCompatActivity {
                                               + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
                                               + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
                                               + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                              + "&& su -c mv -v /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-                                              + "&& su -c mv -v /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                              + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                              + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
                                               + "&& su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
                                               + panel
                                               + "-"
                                               + ramvalue
                                               + "gb-v2.1.0.img of=/dev/block/by-name/boot && su -c reboot");
-                                  messages.setText(run);
+                                  messages.setText("Reboot to windows now...");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
@@ -130,67 +176,64 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvDumpSensor.setVisibility(View.GONE);
-    
-    /*
-        x.cvDumpSensor.setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                yesButton.setVisibility(View.VISIBLE);
-                ShowBlur();
-                icons.setImageDrawable(sensors);
-                messages.setText(getString(R.string.dump_sensors_question));
-                yesButton.setText(getString(R.string.yes));
-                yesButton.setOnClickListener(
-                    new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                        yesButton.setVisibility(View.GONE);
-                        dismissButton.setVisibility(View.GONE);
-                        messages.setText(getString(R.string.please_wait));
-                        new Handler()
-                            .postDelayed(
-                                new Runnable() {
-                                  @Override
-                                  public void run() {
-                                    try {
-                                      String r =
-                                          ShellUtils.Executer(
-                                              "su -c mkdir /mnt/Windows "
-                                                  + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                                  + "&& su -c mkdir /mnt/persist "
-                                                  + "&& su -c mount /dev/block/by-name/persist "
-                                                  + "&& su -c mv /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-                                                  + "&& su -c umount /mnt/persist "
-                                                  + "&& su -c umount /mnt/Windows"
-                                                  + "&& su -c rm -d /mnt/persist "
-                                                  + "&& su -c rm -d /mnt/Windows");
-                                      messages.setText("Provisioning Sensors finished...");
-                                      dismissButton.setVisibility(View.VISIBLE);
-                                    } catch (Exception error) {
-                                      error.printStackTrace();
-                                    }
-                                  }
-                                },
-                                2000);
-                      }
-                    });
-                dismissButton.setText(getString(R.string.dismiss));
-                dismissButton.setOnClickListener(
-                    new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                        HideBlur();
-                        dialog.dismiss();
-                      }
-                    });
-                dialog.setCancelable(false);
-                dialog.show();
-              }
-            });
-    */
-    
+    x.cvDumpSensor.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            yesButton.setVisibility(View.VISIBLE);
+            ShowBlur();
+            icons.setImageDrawable(sensors);
+            messages.setText(getString(R.string.dump_sensors_question));
+            yesButton.setText(getString(R.string.yes));
+            yesButton.setOnClickListener(
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    yesButton.setVisibility(View.GONE);
+                    dismissButton.setVisibility(View.GONE);
+                    messages.setText(getString(R.string.please_wait));
+                    new Handler()
+                        .postDelayed(
+                            new Runnable() {
+                              @Override
+                              public void run() {
+                                try {
+                                  String r =
+                                      ShellUtils.Executer(
+                                          "su -c mkdir /mnt/Windows "
+                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                              + "&& su -c mkdir /mnt/persist "
+                                              + "&& su -c mount /dev/block/by-name/persist "
+                                              + "&& su -c mv /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                              + "&& su -c umount /mnt/persist "
+                                              + "&& su -c umount /mnt/Windows"
+                                              + "&& su -c rm -d /mnt/persist "
+                                              + "&& su -c rm -d /mnt/Windows");
+                                  messages.setText("Provisioning Sensors finished...");
+                                  dismissButton.setVisibility(View.VISIBLE);
+                                } catch (Exception error) {
+                                  error.printStackTrace();
+                                }
+                              }
+                            },
+                            2000);
+                  }
+                });
+
+            dismissButton.setText(getString(R.string.dismiss));
+            dismissButton.setOnClickListener(
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    HideBlur();
+                    dialog.dismiss();
+                  }
+                });
+            dialog.setCancelable(false);
+            dialog.show();
+          }
+        });
+
     x.cvDumpModem.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -222,7 +265,8 @@ public class MainActivity extends AppCompatActivity {
                                               + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
                                               + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
                                               + "&& su -c umount /mnt/Windows");
-                                  messages.setText(run);
+                                  messages.setText(
+                                      "Modem Provisioned Successfully...\nEnjoy LTE on Windows :)");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
@@ -276,7 +320,12 @@ public class MainActivity extends AppCompatActivity {
                                               + "-"
                                               + ramvalue
                                               + "gb-v2.1.0.img of=/dev/block/by-name/boot");
-                                  messages.setText(run);
+                                  messages.setText(
+                                      "UEFI for "
+                                          + panel
+                                          + " panel "
+                                          + ramvalue
+                                          + "GB Variant successfully flashed to boot partition.\nNext reboot will boot into Windows");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
@@ -325,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
                                   String run =
                                       ShellUtils.Executer(
                                           "su -c dd if=/dev/block/by-name/boot of=/sdcard/boot.img");
-                                  messages.setText("Backup boot image successful...");
+                                  messages.setText("Backup boot image successful...\n" + run);
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
