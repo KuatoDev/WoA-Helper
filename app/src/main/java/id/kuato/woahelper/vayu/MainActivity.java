@@ -16,6 +16,8 @@ import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 import com.google.android.material.button.MaterialButton;
 //import com.itsaky.androidide.logsender.LogSender;
+import java.util.Locale;
+
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
 import id.kuato.woahelper.util.MemoryUtils;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
   int ram;
   int ramvalue;
   String panel;
+  String finduefi;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     x.tvRamvalue.setText(String.format(getString(R.string.ramvalue), ramvalue));
     x.tvPanel.setText(String.format(getString(R.string.paneltype), panel));
 
-    String uefiname = ShellUtils.Executer(getString(R.string.finduefi));
+    String uefiname = finduefi;
     String findbackup = ShellUtils.Executer(getString(R.string.findbackup));
 
     if (uefiname.isEmpty()) {
@@ -91,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
       x.tvBackupStatus.setTextColor(R.color.red);
     }
 
+
     x.tvUefiVersion.setText(
-        String.format(getString(R.string.uefi_version), uefiname.replace("/sdcard/", "")));
+        String.format(getString(R.string.uefi_version), uefiname).replace("/mnt/sdcard/UEFI/vayu-" ,"").replace(".img",""));
     x.tvBackupStatus.setText(
         String.format(getString(R.string.backup_status), findbackup.replace("/sdcard/", "")));
     x.cvGuide.setOnClickListener(
@@ -143,15 +147,13 @@ public class MainActivity extends AppCompatActivity {
                                       ShellUtils.Executer(
                                           " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
                                               + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
-                                              + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
+                                              + "&& su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
                                               + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
                                               + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
                                               + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-                                              + "&& su -c umount /mnt/Windows && su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
-                                              + panel
-                                              + "-"
-                                              + ramvalue
-                                              + "gb-v2.1.0.img of=/dev/block/by-name/boot && su -c reboot");
+                                              + "&& su -c umount /mnt/Windows && su -c dd if="
+                                              + finduefi
+                                              + " of=/dev/block/by-name/boot && su -c reboot");
                                   messages.setText("Reboot to windows now...");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
@@ -200,15 +202,16 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                   String r =
                                       ShellUtils.Executer(
-                                          "su -c mkdir /mnt/Windows "
+                                          "su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
                                               + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
                                               + "&& su -c mkdir /mnt/persist "
-                                              + "&& su -c mount /dev/block/by-name/persist "
-                                              + "&& su -c mv /mnt/persist/sensor/ /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                              + "&& su -c mount /dev/block/by-name/persist /mnt/persist "
+                                                  + "&& su -c mkdir -p /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                                  + "&& su -c rm -rf /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/sensors "
+                                              + "&& su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
                                               + "&& su -c umount /mnt/persist "
                                               + "&& su -c umount /mnt/Windows"
-                                              + "&& su -c rm -d /mnt/persist "
-                                              + "&& su -c rm -d /mnt/Windows");
+                                              + "&& su -c rmdir /mnt/persist ");
                                   messages.setText("Provisioning Sensors finished...");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                                       ShellUtils.Executer(
                                           " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
                                               + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
-                                              + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
+                                              + "&& su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
                                               + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
                                               + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
                                               + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
@@ -315,17 +318,14 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                   String run =
                                       ShellUtils.Executer(
-                                          "su -c dd if=/sdcard/vayu-uefi-v2.1.0-release/"
-                                              + panel
-                                              + "-"
-                                              + ramvalue
-                                              + "gb-v2.1.0.img of=/dev/block/by-name/boot");
+                                          "su -c dd if="
+                                              + finduefi
+                                              + " of=/dev/block/by-name/boot");
                                   messages.setText(
-                                      "UEFI for "
+                                      "UEFI for the "
                                           + panel
                                           + " panel "
-                                          + ramvalue
-                                          + "GB Variant successfully flashed to boot partition.\nNext reboot will boot into Windows");
+                                          + " variant successfully flashed to boot partition.\nNext reboot will boot into Windows.");
                                   dismissButton.setVisibility(View.VISIBLE);
                                 } catch (Exception error) {
                                   error.printStackTrace();
@@ -418,22 +418,20 @@ public class MainActivity extends AppCompatActivity {
     String run = ShellUtils.Executer("su -c cat /proc/cmdline");
     if (run.isEmpty()) {
     } else if (run.contains("j20s_42")) {
-      panel = "huaxing";
+      panel = "Huaxing";
     } else if (run.contains("j20s_36")) {
-      panel = "tianma";
+      panel = "Tianma";
     } else {
-      panel = "unknown";
+      panel = "Unknown";
     }
   }
 
   public void checkuefi() {
-    String finduefi =
+     finduefi =
         ShellUtils.Executer(
-            "su -c find /mnt/sdcard/vayu-uefi-v2.1.0-release/ -type f -name '*"
-                + panel
-                + "-"
-                + ramvalue
-                + "*'");
+            "su -c find /mnt/sdcard/UEFI/ -type f -name 'vayu-"
+                + panel.toLowerCase()
+                + "-*'");
     if (finduefi.isEmpty()) {
       x.cvFlashUefi.setEnabled(false);
       x.tvFlashUefi.setText(getString(R.string.uefi_not_found));
