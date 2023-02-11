@@ -39,7 +39,7 @@
     <string name="flash_uefi_title">FLASH UEFI</string>
     <string name="flash_uefi_subtitle">UEFI for the %s panel variant is ready to flash</string>
     <string name="uefi_not_found">UEFI NOT FOUND</string>
-    <string name="uefi_not_found_subtitle">Please Download UEFI for VAYU and extract UEFI Folder to INTERNAL STORAGE</string>
+    <string name="uefi_not_found_subtitle">Please Download UEFI for VAYU and place your UEFI to the UEFI FOLDER in INTERNAL STORAGE</string>
 
     <string name="flash_uefi_question">Flash UEFI for the %s panel variant?</string>
 
