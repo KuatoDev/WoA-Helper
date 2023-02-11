@@ -427,7 +427,9 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void checkuefi() {
-     finduefi =
+
+      ShellUtils.Executer("su -c mkdir /sdcard/UEFI"); // Create UEFI Folder if it doesnt exist.
+      finduefi =
         ShellUtils.Executer(
             "su -c find /mnt/sdcard/UEFI/ -type f -name 'vayu-"
                 + panel.toLowerCase()
