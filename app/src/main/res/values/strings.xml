@@ -3,7 +3,7 @@
     <string name="app_name">WOA Helper - Vayu</string>
     <string name="error_title">An unexpected error occurred.\nSorry for the inconvenience.</string>
     <string name="app_title">Windows on ARM Helper - Vayu</string>
-    <string name="app_subtitle">v1.0"</string>
+    <string name="app_subtitle">v1.2"</string>
 
     <string name="dump_sensors_title">DUMP SENSORS</string>
     <string name="dump_modem_title">DUMP MODEM</string>
