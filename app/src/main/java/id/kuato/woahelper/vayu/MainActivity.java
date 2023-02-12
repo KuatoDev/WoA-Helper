@@ -206,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
                                               + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
                                               + "&& su -c mkdir /mnt/persist "
                                               + "&& su -c mount /dev/block/by-name/persist /mnt/persist "
-                                              + "&& su -c mkdir -p /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-                                              + "&& su -c rm -rf /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/sensors "
-                                              + "&& su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/Drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                              + "&& su -c mkdir -p /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist "
+                                              + "&& su -c rm -rf /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/sensors "
+                                              + "&& su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/ "
                                               + "&& su -c umount /mnt/persist "
                                               + "&& su -c umount /mnt/Windows"
                                               + "&& su -c rmdir /mnt/persist ");
