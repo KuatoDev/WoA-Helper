@@ -3,7 +3,7 @@
     <string name="app_name">WOA Helper - Vayu</string>
     <string name="error_title">An unexpected error occurred.\nSorry for the inconvenience.</string>
     <string name="app_title">Windows on ARM Helper - Vayu</string>
-    <string name="app_subtitle">v1.0"</string>
+    <string name="app_subtitle">v1.2"</string>
 
     <string name="dump_sensors_title">DUMP SENSORS</string>
     <string name="dump_modem_title">DUMP MODEM</string>
@@ -23,10 +23,9 @@
     <string name="ramvalue">MEMORY : %sGB</string>
     <string name="paneltype">PANEL : %s</string>
 
-    <string name="uefi_version">UEFI : %s</string>
+    <string name="uefi_version">UEFI VERSION : %s</string>
     <string name="backup_status">BOOT BACKUP : %s</string>
 
-    <string name="finduefi">find /sdcard/vayu-uefi-v2.1.0-release -type d -printf "%f\n"</string>
     <string name="findbackup">find /sdcard/boot.img -type f -printf "%f\n"</string>
 
     <string name="guide">GUIDE</string>
@@ -35,13 +34,13 @@
 
     <string name="yes">YES</string>
     <string name="dismiss">DISMISS</string>
-    <string name="please_wait">PLEASE WAIT...</string>
+    <string name="please_wait">Please Wait...</string>
 
     <string name="flash_uefi_title">FLASH UEFI</string>
-    <string name="flash_uefi_subtitle">UEFI for %s touch panel of %s GB variant is ready to flash</string>
+    <string name="flash_uefi_subtitle">UEFI for the %s panel variant is ready to flash</string>
     <string name="uefi_not_found">UEFI NOT FOUND</string>
-    <string name="uefi_not_found_subtitle">Please Download UEFI for VAYU and extract UEFI Folder to INTERNAL STORAGE</string>
+    <string name="uefi_not_found_subtitle">Please Download UEFI for VAYU and place your UEFI to the UEFI FOLDER in INTERNAL STORAGE</string>
 
-    <string name="flash_uefi_question">Flash UEFI for %s touch panel for %s GB of RAM variant?</string>
+    <string name="flash_uefi_question">Flash UEFI for the %s panel variant?</string>
 
 </resources>
