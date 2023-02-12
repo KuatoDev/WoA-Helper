@@ -23,22 +23,11 @@ lint {
         ignoreWarnings true
         checkDependencies true
     }
-    signingConfigs {
-        release {
-            v1SigningEnabled true        
-            v2SigningEnabled true
-            storeFile file("/storage/emulated/0/AndroidIDEProjects/KuatoDev.jks")
-            storePassword "nim13100472"
-            keyAlias "KuatoDev"
-            keyPassword "nim13100472"
-        }
-    }
     
     buildTypes {
         release {
             ext.enableCrashlytics = true
             multiDexEnabled true
-            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
@@ -47,7 +36,6 @@ lint {
     buildTypes {
         debug {
             ext.enableCrashlytics = true
-            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
