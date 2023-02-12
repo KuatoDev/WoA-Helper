@@ -1,64 +1,73 @@
 package id.kuato.woahelper.vayu;
 
 import android.app.Dialog;
-import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.net.Uri;
-import android.content.Intent;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 import com.google.android.material.button.MaterialButton;
-//import com.itsaky.androidide.logsender.LogSender;
-import java.util.Locale;
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.itsaky.androidide.logsender.LogSender;
+import id.kuato.woahelper.BuildConfig;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
-import id.kuato.woahelper.util.MemoryUtils;
-import id.kuato.woahelper.util.RAM;
+import id.kuato.woahelper.preference.VernPreference;
+import id.kuato.woahelper.util.CopyAssets;
+import id.kuato.woahelper.util.Security;
 import id.kuato.woahelper.util.ShellUtils;
+import id.kuato.woahelper.util.Variant;
 
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding x;
-  private Context context;
-  int ram;
-  int ramvalue;
+
+  String ram;
   String panel;
-  String finduefi;
+  String uefi;
+  String internalpath = "/data/data/id.kuato.woahelper/files/";
+  Handler handler = new Handler();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    // Remove this line if you don't want AndroidIDE to show this app's logs
-    //LogSender.startLogging(this);
+
+    LogSender.startLogging(this);
     super.onCreate(savedInstanceState);
-    // Inflate and get instance of binding
+
     x = ActivityMainBinding.inflate(getLayoutInflater());
-    // set content view to binding's root
+
     setContentView(x.getRoot());
     Drawable iconToolbar =
         ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher_foreground, null);
     setSupportActionBar(x.toolbarlayout.toolbar);
     x.toolbarlayout.toolbar.setTitle(getString(R.string.app_title));
-    x.toolbarlayout.toolbar.setSubtitle(getString(R.string.app_subtitle));
+    x.toolbarlayout.toolbar.setSubtitle(
+        String.format(getString(R.string.app_subtitle), BuildConfig.VERSION_NAME));
     x.toolbarlayout.toolbar.setNavigationIcon(iconToolbar);
-    checkdevice();
-    checkuefi();
-    x.tvDumpSensor.setText(getString(R.string.dump_sensors_title));
-    x.tvDumpModem.setText(getString(R.string.dump_modem_title));
-    x.tvAppCreator.setText("Vern Kuato @2022");
-    x.tvBackupBoot.setText(getString(R.string.backup_boot_title));
-    x.tvBackupSubtitle.setText(getString(R.string.backup_boot_subtitle));
-    x.tvSensorSubtitle.setText(getString(R.string.dump_sensors_subtitle));
-    x.tvModemSubtitle.setText(getString(R.string.dump_modem_subtitle));
-    x.tvQuickBoot.setText(getString(R.string.quickboot_title));
-    x.tvBootSubtitle.setText(getString(R.string.quickboot_subtitle));
+
+    x.mainbutton.tvDumpSensor.setText(getString(R.string.dump_sensors_title));
+    x.mainbutton.tvDumpModem.setText(getString(R.string.dump_modem_title));
+    x.tvAppCreator.setText(getString(R.string.devright));
+    x.mainbutton.tvBackupBoot.setText(getString(R.string.backup_boot_title));
+    x.mainbutton.tvBackupSubtitle.setText(getString(R.string.backup_boot_subtitle));
+    x.mainbutton.tvSensorSubtitle.setText(getString(R.string.dump_sensors_subtitle));
+    x.mainbutton.tvModemSubtitle.setText(getString(R.string.dump_modem_subtitle));
+    x.mainbutton.tvQuickBoot.setText(getString(R.string.quickboot_title));
+    x.mainbutton.tvBootSubtitle.setText(getString(R.string.quickboot_subtitle));
+
+    x.dashboard.menubar.tvGuide.setSelected(true);
+    x.dashboard.menubar.tvNtfs.setSelected(true);
+    x.dashboard.menubar.tvGroup.setSelected(true);
 
     final Dialog dialog = new Dialog(MainActivity.this);
     dialog.setContentView(R.layout.dialog);
@@ -79,27 +88,7 @@ public class MainActivity extends AppCompatActivity {
         BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
             getColor(R.color.colorPrimary), BlendModeCompat.SRC_IN));
 
-    x.tvRamvalue.setText(String.format(getString(R.string.ramvalue), ramvalue));
-    x.tvPanel.setText(String.format(getString(R.string.paneltype), panel));
-
-    String uefiname = finduefi;
-    String findbackup = ShellUtils.Executer(getString(R.string.findbackup));
-
-    if (uefiname.isEmpty()) {
-      uefiname = getString(R.string.not_found);
-      x.tvUefiVersion.setTextColor(R.color.red);
-    }
-    if (findbackup.isEmpty()) {
-      findbackup = getString(R.string.not_found);
-      x.tvBackupStatus.setTextColor(R.color.red);
-    }
-
-
-    x.tvUefiVersion.setText(
-        String.format(getString(R.string.uefi_version), uefiname).replace("/mnt/sdcard/UEFI/vayu-" ,"").replace(".img",""));
-    x.tvBackupStatus.setText(
-        String.format(getString(R.string.backup_status), findbackup.replace("/sdcard/", "")));
-    x.cvGuide.setOnClickListener(
+    x.dashboard.menubar.cvGuide.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -110,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvGroup.setOnClickListener(
+    x.dashboard.menubar.cvGroup.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -121,7 +110,57 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvQuickboot.setOnClickListener(
+    x.dashboard.menubar.cvFlashNtfs.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            yesButton.setVisibility(View.VISIBLE);
+            ShowBlur();
+            icons.setImageDrawable(icon);
+            messages.setText(getString(R.string.flash_ntfs));
+            yesButton.setText(getString(R.string.yes));
+            yesButton.setOnClickListener(
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    yesButton.setVisibility(View.GONE);
+                    dismissButton.setVisibility(View.GONE);
+                    messages.setText(getString(R.string.please_wait));
+                    handler.postDelayed(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            try {
+                              String run =
+                                  ShellUtils.Executer(
+                                      "su -c magisk --install-module "
+                                          + internalpath
+                                          + " ntfs-3g-magisk.zip");
+                              messages.setText(run);
+                              dismissButton.setVisibility(View.VISIBLE);
+                            } catch (Exception error) {
+                              error.printStackTrace();
+                            }
+                          }
+                        },
+                        1000);
+                  }
+                });
+            dismissButton.setText(getString(R.string.dismiss));
+            dismissButton.setOnClickListener(
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    HideBlur();
+                    dialog.dismiss();
+                  }
+                });
+            dialog.setCancelable(false);
+            dialog.show();
+          }
+        });
+
+    x.mainbutton.cvQuickboot.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -137,31 +176,30 @@ public class MainActivity extends AppCompatActivity {
                     yesButton.setVisibility(View.GONE);
                     dismissButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
-                    new Handler()
-                        .postDelayed(
-                            new Runnable() {
-                              @Override
-                              public void run() {
-                                try {
-                                  String run =
-                                      ShellUtils.Executer(
-                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
-                                              + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
-                                              + "&& su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
-                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                              + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-                                              + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-                                              + "&& su -c umount /mnt/Windows && su -c dd if="
-                                              + finduefi
-                                              + " of=/dev/block/by-name/boot && su -c reboot");
-                                  messages.setText("Reboot to windows now...");
-                                  dismissButton.setVisibility(View.VISIBLE);
-                                } catch (Exception error) {
-                                  error.printStackTrace();
-                                }
-                              }
-                            },
-                            1000);
+                    handler.postDelayed(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            try {
+                              ShellUtils.Executer(
+                                  " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
+                                      + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
+                                      + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
+                                      + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                      + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                      + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                      + "&& su -c umount /mnt/Windows && su -c dd if="
+                                      + internalpath
+                                      + uefi
+                                      + " of=/dev/block/by-name/boot && su -c reboot");
+                              messages.setText(getString(R.string.reboot_windows));
+                              dismissButton.setVisibility(View.VISIBLE);
+                            } catch (Exception error) {
+                              error.printStackTrace();
+                            }
+                          }
+                        },
+                        1000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -178,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvDumpSensor.setOnClickListener(
+    x.mainbutton.cvDumpSensor.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -194,32 +232,30 @@ public class MainActivity extends AppCompatActivity {
                     yesButton.setVisibility(View.GONE);
                     dismissButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
-                    new Handler()
-                        .postDelayed(
-                            new Runnable() {
-                              @Override
-                              public void run() {
-                                try {
-                                  String r =
-                                      ShellUtils.Executer(
-                                          "su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
-                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                              + "&& su -c mkdir /mnt/persist "
-                                              + "&& su -c mount /dev/block/by-name/persist /mnt/persist "
-                                              + "&& su -c mkdir -p /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist "
-                                              + "&& su -c rm -rf /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/sensors "
-                                              + "&& su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-                                              + "&& su -c umount /mnt/persist "
-                                              + "&& su -c umount /mnt/Windows"
-                                              + "&& su -c rmdir /mnt/persist ");
-                                  messages.setText("Provisioning Sensors finished...");
-                                  dismissButton.setVisibility(View.VISIBLE);
-                                } catch (Exception error) {
-                                  error.printStackTrace();
-                                }
-                              }
-                            },
-                            2000);
+                    handler.postDelayed(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            try {
+                              ShellUtils.Executer(
+                                  "su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
+                                      + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                      + "&& su -c mkdir /mnt/persist "
+                                      + "&& su -c mount /dev/block/by-name/persist /mnt/persist "
+                                      + "&& su -c mkdir -p /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist "
+                                      + "&& su -c rm -rf /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/sensors "
+                                      + "&& su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/ "
+                                      + "&& su -c umount /mnt/persist "
+                                      + "&& su -c umount /mnt/Windows"
+                                      + "&& su -c rmdir /mnt/persist ");
+                              messages.setText(getString(R.string.provision_sensors));
+                              dismissButton.setVisibility(View.VISIBLE);
+                            } catch (Exception error) {
+                              error.printStackTrace();
+                            }
+                          }
+                        },
+                        2000);
                   }
                 });
 
@@ -237,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvDumpModem.setOnClickListener(
+    x.mainbutton.cvDumpModem.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -253,30 +289,27 @@ public class MainActivity extends AppCompatActivity {
                     dismissButton.setVisibility(View.GONE);
                     yesButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
-                    new Handler()
-                        .postDelayed(
-                            new Runnable() {
-                              @Override
-                              public void run() {
-                                try {
-                                  String run =
-                                      ShellUtils.Executer(
-                                          " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
-                                              + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
-                                              + "&& su -c rmdir /mnt/Windows; su -c mkdir /mnt/Windows "
-                                              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-                                              + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-                                              + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-                                              + "&& su -c umount /mnt/Windows");
-                                  messages.setText(
-                                      "Modem Provisioned Successfully...\nEnjoy LTE on Windows :)");
-                                  dismissButton.setVisibility(View.VISIBLE);
-                                } catch (Exception error) {
-                                  error.printStackTrace();
-                                }
-                              }
-                            },
-                            2000);
+                    handler.postDelayed(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            try {
+                              ShellUtils.Executer(
+                                  " su -c dd if=/dev/block/by-name/modemst1 of=/sdcard/bootmodem_fs1 "
+                                      + "&& su -c dd if=/dev/block/by-name/modemst2 of=/sdcard/bootmodem_fs2 "
+                                      + "&& su -c rm -r /mnt/Windows; su -c mkdir /mnt/Windows "
+                                      + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
+                                      + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                      + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
+                                      + "&& su -c umount /mnt/Windows");
+                              messages.setText(getString(R.string.provision_modem));
+                              dismissButton.setVisibility(View.VISIBLE);
+                            } catch (Exception error) {
+                              error.printStackTrace();
+                            }
+                          }
+                        },
+                        2000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -293,15 +326,14 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvFlashUefi.setOnClickListener(
+    x.mainbutton.cvFlashUefi.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
             ShowBlur();
             icons.setImageDrawable(uefi);
             yesButton.setVisibility(View.VISIBLE);
-            messages.setText(
-                String.format(getString(R.string.flash_uefi_question), panel, ramvalue));
+            messages.setText(String.format(getString(R.string.flash_uefi_question), panel, ram));
             yesButton.setText(getString(R.string.yes));
             yesButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -310,31 +342,29 @@ public class MainActivity extends AppCompatActivity {
                     dismissButton.setVisibility(View.GONE);
                     yesButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
-                    new Handler()
-                        .postDelayed(
-                            new Runnable() {
-                              @Override
-                              public void run() {
-                                try {
-                                  String run =
-                                      ShellUtils.Executer(
-                                          "su -c dd if="
-                                              + finduefi
-                                              + " of=/dev/block/by-name/boot");
-                                  messages.setText(
-                                      "UEFI for the "
-                                          + panel
-                                          + " panel "
-                                          + " variant successfully flashed to boot partition.\nNext reboot will boot into Windows.");
-                                  dismissButton.setVisibility(View.VISIBLE);
-                                } catch (Exception error) {
-                                  error.printStackTrace();
-                                }
-                              }
-                            },
-                            2000);
+                    handler.postDelayed(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            try {
+                              ShellUtils.Executer(
+                                  "su -c dd if="
+                                      + internalpath
+                                      + uefi
+                                      + " of=/dev/block/by-name/boot");
+                              messages.setText(
+                                  String.format(
+                                      getString(R.string.flash_uefi_successfull), panel, ram));
+                              dismissButton.setVisibility(View.VISIBLE);
+                            } catch (Exception error) {
+                              error.printStackTrace();
+                            }
+                          }
+                        },
+                        2000);
                   }
                 });
+
             dismissButton.setText(getString(R.string.dismiss));
             dismissButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -349,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    x.cvBackupBoot.setOnClickListener(
+    x.mainbutton.cvBackupBoot.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -365,23 +395,25 @@ public class MainActivity extends AppCompatActivity {
                     dismissButton.setVisibility(View.GONE);
                     yesButton.setVisibility(View.GONE);
                     messages.setText(getString(R.string.please_wait));
-                    new Handler()
-                        .postDelayed(
-                            new Runnable() {
-                              @Override
-                              public void run() {
-                                try {
-                                  String run =
-                                      ShellUtils.Executer(
-                                          "su -c dd if=/dev/block/by-name/boot of=/sdcard/boot.img");
-                                  messages.setText("Backup boot image successful...\n" + run);
-                                  dismissButton.setVisibility(View.VISIBLE);
-                                } catch (Exception error) {
-                                  error.printStackTrace();
-                                }
-                              }
-                            },
-                            2000);
+                    handler.postDelayed(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            try {
+                              String run =
+                                  ShellUtils.Executer(
+                                      "su -c dd if=/dev/block/by-name/boot of="
+                                          + internalpath
+                                          + "boot.img");
+                              messages.setText(getString(R.string.backup_successfull));
+                              dismissButton.setVisibility(View.VISIBLE);
+                              checkdashboard();
+                            } catch (Exception error) {
+                              error.printStackTrace();
+                            }
+                          }
+                        },
+                        2000);
                   }
                 });
             dismissButton.setText(getString(R.string.dismiss));
@@ -398,54 +430,64 @@ public class MainActivity extends AppCompatActivity {
           }
         });
 
-    HideBlur();
+    // HideBlur();
   }
 
-  public void checkdevice() {
-    try {
-      String stram =
-          MemoryUtils.extractNumberFromString(new RAM().getMemory(getApplicationContext()));
-      ram = Integer.parseInt(stram);
-      if (ram > 600) {
-        ramvalue = 8;
-      } else {
-        ramvalue = 6;
-      }
-    } catch (NumberFormatException n) {
-      System.out.println(n);
+  public void checkntfs() {
+    String ntfspath = ShellUtils.Executer("su -c find /system/ -type f -name 'libntfs-3g.so'");
+    if (ntfspath.isEmpty()) {
+      x.dashboard.tvNtfsSupport.setText(
+          String.format(getString(R.string.support_ntfs), getString(R.string.no)));
+      x.mainbutton.cvDumpModem.setVisibility(View.GONE);
+      x.mainbutton.cvDumpSensor.setVisibility(View.GONE);
+      x.mainbutton.cvFlashUefi.setVisibility(View.GONE);
+      x.dashboard.menubar.cvFlashNtfs.setVisibility(View.VISIBLE);
+      new CopyAssets().copyAssets(getApplicationContext(), "ntfs-3g-magisk.zip");
+    } else {
+      x.dashboard.tvNtfsSupport.setText(
+          String.format(getString(R.string.support_ntfs), getString(R.string.yes)));
+      x.mainbutton.cvDumpModem.setVisibility(View.VISIBLE);
+      x.mainbutton.cvDumpSensor.setVisibility(View.VISIBLE);
+      x.mainbutton.cvFlashUefi.setVisibility(View.VISIBLE);
+      x.dashboard.menubar.cvFlashNtfs.setVisibility(View.GONE);
+    }
+  }
+
+  public void checkdashboard() {
+    String uefiname =
+        ShellUtils.Executer("su -c find " + internalpath + " -type f -name '" + uefi + "'");
+    String findbackup =
+        ShellUtils.Executer("su -c find " + internalpath + " -type f -name 'boot.img'");
+
+    if (uefiname.isEmpty()) {
+      uefiname = getString(R.string.not_found);
+    }
+    if (findbackup.isEmpty()) {
+      findbackup = getString(R.string.not_found);
     }
 
-    String run = ShellUtils.Executer("su -c cat /proc/cmdline");
-    if (run.isEmpty()) {
-    } else if (run.contains("j20s_42")) {
-      panel = "Huaxing";
-    } else if (run.contains("j20s_36")) {
-      panel = "Tianma";
-    } else {
-      panel = "Unknown";
-    }
+    x.dashboard.tvUefiVersion.setText(
+        String.format(getString(R.string.uefi_version), uefiname.replace(internalpath, "")));
+    x.dashboard.tvBackupStatus.setText(
+        String.format(getString(R.string.backup_status), getString(R.string.yes)));
+    x.dashboard.tvRamvalue.setText(String.format(getString(R.string.ramvalue), ram));
+    x.dashboard.tvPanel.setText(String.format(getString(R.string.paneltype), panel.toUpperCase()));
   }
 
   public void checkuefi() {
-
-      ShellUtils.Executer("su -c mkdir /sdcard/UEFI"); // Create UEFI Folder if it doesnt exist.
-      finduefi =
-        ShellUtils.Executer(
-            "su -c find /mnt/sdcard/UEFI/ -type f -name 'vayu-"
-                + panel.toLowerCase()
-                + "-*'");
+    String finduefi =
+        ShellUtils.Executer("su -c find " + internalpath + " -type f -name '" + uefi + "'");
     if (finduefi.isEmpty()) {
-      x.cvFlashUefi.setEnabled(false);
-      x.tvFlashUefi.setText(getString(R.string.uefi_not_found));
-      x.tvUefiSubtitle.setVisibility(View.VISIBLE);
-      x.tvUefiSubtitle.setText(getString(R.string.uefi_not_found_subtitle));
+
+      new CopyAssets().copyAssets(getApplicationContext(), uefi);
     } else {
-      x.tvFlashUefi.setText(getString(R.string.flash_uefi_title));
-      x.cvQuickboot.setVisibility(View.VISIBLE);
-      x.cvFlashUefi.setEnabled(true);
-      x.tvUefiSubtitle.setText(
-          String.format(getString(R.string.flash_uefi_subtitle), panel, ramvalue));
-      x.tvUefiSubtitle.setVisibility(View.VISIBLE);
+      x.mainbutton.tvFlashUefi.setText(getString(R.string.flash_uefi_title));
+      x.mainbutton.cvQuickboot.setVisibility(View.VISIBLE);
+      x.mainbutton.cvFlashUefi.setEnabled(true);
+      x.mainbutton.tvUefiSubtitle.setText(
+          String.format(getString(R.string.flash_uefi_subtitle), panel, ram));
+      x.mainbutton.tvUefiSubtitle.setVisibility(View.VISIBLE);
+      checkdashboard();
     }
   }
 
@@ -455,5 +497,77 @@ public class MainActivity extends AppCompatActivity {
 
   public void HideBlur() {
     x.blur.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void onStart() {
+    new Handler(Looper.getMainLooper())
+        .post(
+            new Runnable() {
+              @Override
+              public void run() {
+                new Variant().getVariant(getApplicationContext());
+                uefi = VernPreference.getVariant(getApplicationContext());
+                panel = VernPreference.getPanel(getApplicationContext());
+                ram = VernPreference.getRAM(getApplicationContext());
+                checkntfs();
+                checkuefi();
+                new Security().Security(getApplicationContext());
+                HideBlur();
+              }
+            });
+    super.onStart();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    finishAffinity();
+  }
+
+  @Override
+  public void onBackPressed() {
+    ShowBlur();
+    Drawable icon =
+        ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher_foreground, null);
+    icon.setColorFilter(
+        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            R.color.colorPrimary, BlendModeCompat.SRC_IN));
+    new MaterialAlertDialogBuilder(
+            MainActivity.this, R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
+        .setMessage(getString(R.string.exit_app))
+        .setNegativeButton(
+            getString(R.string.cancel),
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int WhichButton) {
+                dialog.cancel();
+                dialog.dismiss();
+                HideBlur();
+              }
+            })
+        .setPositiveButton(
+            getString(R.string.exit),
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+                HideBlur();
+              }
+            })
+        .setIcon(icon)
+        .setCancelable(false)
+        .show();
+  }
+
+  private void unbindDrawables(View view) {
+    if (view.getBackground() != null) {
+      view.getBackground().setCallback(null);
+    }
+    if (view instanceof ViewGroup) {
+      for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+        unbindDrawables(((ViewGroup) view).getChildAt(i));
+      }
+      ((ViewGroup) view).removeAllViews();
+      view.setBackgroundResource(0);
+    }
   }
 }

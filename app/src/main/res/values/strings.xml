@@ -1,46 +1,64 @@
 <resources>
 
-    <string name="app_name">WOA Helper - Vayu</string>
-    <string name="error_title">An unexpected error occurred.\nSorry for the inconvenience.</string>
-    <string name="app_title">Windows on ARM Helper - Vayu</string>
-    <string name="app_subtitle">v1.2"</string>
+        <string name="app_name">WOA Helper - Vayu</string>
+        <string name="error_title">An unexpected error occurred.\nSorry for the inconvenience.</string>
+        <string name="app_title">Windows on ARM Helper - Vayu</string>
+        <string name="app_subtitle">Version %s</string>
 
-    <string name="dump_sensors_title">DUMP SENSORS</string>
-    <string name="dump_modem_title">DUMP MODEM</string>
-    <string name="quickboot_title">QUICKBOOT TO WINDOWS</string>
-    <string name="backup_boot_title">BACKUP ANDROID BOOT</string>
+        <string name="dump_sensors_title">PROVISION SENSORS</string>
+        <string name="dump_modem_title">PROVISION MODEM</string>
+        <string name="quickboot_title">QUICKBOOT TO WINDOWS</string>
+        <string name="backup_boot_title">BACKUP BOOT</string>
 
-    <string name="dump_sensors_question">Dump sensors to Windows partition?</string>
-    <string name="dump_modem_question">Dump modem1st and modem2st to Windows partition?</string>
-    <string name="quickboot_question">Quick Boot to Windows?</string>
-    <string name="backup_boot_question">Backup current android boot to Internal Storage?</string>
+        <string name="dump_sensors_question">Provision sensors to Windows partition?</string>
+        <string name="dump_modem_question">Provision modem1st and modem2st to Windows partition?</string>
+        <string name="quickboot_question">Quick Boot to Windows?</string>
+        <string name="backup_boot_question">Backup current android boot to Internal Storage?</string>
 
-    <string name="dump_sensors_subtitle">Dump sensors to Windows is required one time only to repair the sensors on Windows</string>
-    <string name="dump_modem_subtitle">Dump modem1st and modem2st to Windows to fix LTE on SIM1 on Windows everytime you want to boot to Windows</string>
-    <string name="backup_boot_subtitle">Backup boot image to internal storage</string>
-    <string name="quickboot_subtitle">Dump Modem, Flash UEFI, and Reboot to Windows in one click</string>
+        <string name="dump_sensors_subtitle">Provision sensors to Windows is required one time only to repair the sensors on Windows</string>
+        <string name="dump_modem_subtitle">Provision modem1st and modem2st to Windows to fix LTE on SIM1 on Windows everytime you want to boot to Windows</string>
+        <string name="backup_boot_subtitle">Backup boot image to internal storage</string>
+        <string name="quickboot_subtitle">Provision Modem, Flash UEFI, and Reboot to Windows in one click</string>
 
-    <string name="ramvalue">MEMORY : %sGB</string>
-    <string name="paneltype">PANEL : %s</string>
+        <string name="ramvalue">MEMORY : %sGB</string>
+        <string name="paneltype">PANEL : %s</string>
 
-    <string name="uefi_version">UEFI VERSION : %s</string>
-    <string name="backup_status">BOOT BACKUP : %s</string>
+        <string name="uefi_version">UEFI : %s</string>
+        <string name="backup_status">BOOT BACKUP : %s</string>
 
-    <string name="findbackup">find /sdcard/boot.img -type f -printf "%f\n"</string>
+        <string name="woa">Renegade Project Devices</string>
+        <string name="device">POCO X3 PRO (VAYU)</string>
 
-    <string name="guide">GUIDE</string>
-    <string name="group">GROUP</string>
-    <string name="not_found">Not Found</string>
+        <string name="guide">Installation\nGuide</string>
+        <string name="group">Support\nGroup</string>
 
-    <string name="yes">YES</string>
-    <string name="dismiss">DISMISS</string>
-    <string name="please_wait">Please Wait...</string>
+        <string name="not_found">Not Found</string>
+        <string name="backup_successfull">Backup boot image successful...</string>
+        <string name="flash_uefi_successfull">UEFI for %1s panel %2s GB Variant successfully flashed to boot partition.\nNext reboot will boot into Windows</string>
+        <string name="yes">YES</string>
+        <string name="no">NO</string>
+        <string name="devright">Vern Kuato 2022 - 2023</string>
+        <string name="dismiss">DISMISS</string>
+        <string name="please_wait">PLEASE WAIT...</string>
 
-    <string name="flash_uefi_title">FLASH UEFI</string>
-    <string name="flash_uefi_subtitle">UEFI for the %s panel variant is ready to flash</string>
-    <string name="uefi_not_found">UEFI NOT FOUND</string>
-    <string name="uefi_not_found_subtitle">Please Download UEFI for VAYU and place your UEFI to the UEFI FOLDER in INTERNAL STORAGE</string>
+        <string name="flash_uefi_title">FLASH UEFI</string>
+        <string name="flash_uefi_subtitle">UEFI for %1s touch panel of %2s GB variant is ready to flash</string>
+        <string name="uefi_not_found">UEFI NOT FOUND</string>
+        <string name="uefi_not_found_subtitle">Your devices is not supported</string>
 
-    <string name="flash_uefi_question">Flash UEFI for the %s panel variant?</string>
+        <string name="flash_uefi_question">Flash UEFI for %1s touch panel for %2s GB of RAM variant?</string>
+        <string name="youtube">YOUTUBE</string>
+        <string name="paypal">DONATE</string>
+        <string name="telegram">UPDATE</string>
+        <string name="instagram">INSTAGRAM</string>
+
+        <string name="exit_app">Exit from applications?</string>
+        <string name="cancel">Cancel</string>
+        <string name="exit">Exit</string>
+        <string name="support_ntfs">SUPPORT NTFS-3G : %s</string>
+        <string name="provision_modem">Modem Provisioned Successfully...\nEnjoy LTE on Windows :)</string>
+        <string name="provision_sensors">Sensors Provisioned Successfully...\nEnjoy working sensors on Windows :)</string>
+        <string name="reboot_windows">Reboot to windows now...</string>
+        <string name="flash_ntfs">Flash NTFS-3G Module?</string>
 
 </resources>
