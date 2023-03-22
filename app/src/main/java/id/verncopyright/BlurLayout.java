@@ -28,190 +28,205 @@ import android.util.AttributeSet;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.cardview.widget.CardView;
 import id.kuato.woahelper.R;
+import androidx.cardview.widget.CardView;
+
+
 import java.lang.ref.WeakReference;
 
 public class BlurLayout extends CardView {
 
-	public static final float DEFAULT_DOWNSCALE_FACTOR = 0.12f;
-	public static final int DEFAULT_BLUR_RADIUS = 12;
-	public static final int DEFAULT_FPS = 60;
-	private float mDownscaleFactor;
-	private int mBlurRadius;
-	private int mFPS;
-	private WeakReference<View> mActivityView;
+  public static final float DEFAULT_DOWNSCALE_FACTOR = 0.12f;
+  public static final int DEFAULT_BLUR_RADIUS = 25;
+  public static final int DEFAULT_FPS = 60;
+  private float mDownscaleFactor;
+  private int mBlurRadius;
+  private int mFPS;
+  private WeakReference<View> mActivityView;
 
-	public BlurLayout(Context context) {
-		super(context, null);
-	}
+  public BlurLayout(Context context) {
+    super(context, null);
+  }
 
-	public BlurLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		BlurKit.init(context);
+  public BlurLayout(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    mDownscaleFactor = DEFAULT_DOWNSCALE_FACTOR;
+    mBlurRadius = DEFAULT_BLUR_RADIUS;
+    mFPS = DEFAULT_FPS;
 
-		TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.BlurLayout, 0, 0);
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurLayout);
+    try {
+      mDownscaleFactor =
+          a.getFloat(R.styleable.BlurLayout_downscaleFactor, DEFAULT_DOWNSCALE_FACTOR);
+      mBlurRadius = a.getInteger(R.styleable.BlurLayout_blurRadius, DEFAULT_BLUR_RADIUS);
+      mFPS = a.getInteger(R.styleable.BlurLayout_fps, DEFAULT_FPS);
+    } finally {
+      a.recycle();
+    }
 
-		try {
-			mDownscaleFactor = a.getFloat(R.styleable.BlurLayout_downscaleFactor, DEFAULT_DOWNSCALE_FACTOR);
-			mBlurRadius = a.getInteger(R.styleable.BlurLayout_blurRadius, DEFAULT_BLUR_RADIUS);
-			mFPS = a.getInteger(R.styleable.BlurLayout_fps, DEFAULT_FPS);
-		} finally {
-			a.recycle();
-		}
+    BlurKit.getInstance(context);
 
-		if (mFPS > 0) {
-			Choreographer.getInstance().postFrameCallback(invalidationLoop);
-		}
-	}
+    if (mFPS > 0) {
+      Choreographer.getInstance().postFrameCallback(invalidationLoop);
+    }
+  }
 
-	private Choreographer.FrameCallback invalidationLoop = new Choreographer.FrameCallback() {
-		@Override
-		public void doFrame(long frameTimeNanos) {
-			invalidate();
-			Choreographer.getInstance().postFrameCallbackDelayed(this, 1000 / mFPS);
-		}
-	};
+  private Choreographer.FrameCallback invalidationLoop =
+      new Choreographer.FrameCallback() {
+        @Override
+        public void doFrame(long frameTimeNanos) {
+          invalidate();
+          Choreographer.getInstance().postFrameCallbackDelayed(this, 1000 / mFPS);
+        }
+      };
 
-	@Override
-	public void invalidate() {
-		super.invalidate();
-		Bitmap bitmap = blur();
-		if (bitmap != null) {
-			setBackground(new BitmapDrawable(bitmap));
-		}
-	}
+  @Override
+  public void invalidate() {
+    super.invalidate();
+    Bitmap bitmap = blur();
+    if (bitmap != null) {
+      setBackground(new BitmapDrawable(bitmap));
+    }
+  }
 
-	private Bitmap blur() {
-		if (getContext() == null) {
-			return null;
-		}
+  private Bitmap blur() {
+    if (getContext() == null) {
+      return null;
+    }
 
-		if (mActivityView == null || mActivityView.get() == null) {
-			mActivityView = new WeakReference<>(getActivityView());
-			if (mActivityView.get() == null) {
-				return null;
-			}
-		}
+    if (mActivityView == null || mActivityView.get() == null) {
+      mActivityView = new WeakReference<>(getActivityView());
+      if (mActivityView.get() == null) {
+        return null;
+      }
+    }
 
-		Point pointRelativeToActivityView = getPositionInScreen();
+    Point pointRelativeToActivityView = getPositionInScreen();
 
-		setAlpha(0);
+    setAlpha(0);
 
-		int screenWidth = mActivityView.get().getWidth();
-		int screenHeight = mActivityView.get().getHeight();
+    int screenWidth = mActivityView.get().getWidth();
+    int screenHeight = mActivityView.get().getHeight();
 
-		int width = (int) (getWidth() * mDownscaleFactor);
-		int height = (int) (getHeight() * mDownscaleFactor);
+    int width = (int) (getWidth() * mDownscaleFactor);
+    int height = (int) (getHeight() * mDownscaleFactor);
 
-		int x = (int) (pointRelativeToActivityView.x * mDownscaleFactor);
-		int y = (int) (pointRelativeToActivityView.y * mDownscaleFactor);
+    int x = (int) (pointRelativeToActivityView.x * mDownscaleFactor);
+    int y = (int) (pointRelativeToActivityView.y * mDownscaleFactor);
 
-		int xPadding = getWidth() / 8;
-		int yPadding = getHeight() / 8;
+    int xPadding = getWidth() / 8;
+    int yPadding = getHeight() / 8;
 
-		int leftOffset = -xPadding;
-		leftOffset = x + leftOffset >= 0 ? leftOffset : 0;
+    int leftOffset = -xPadding;
+    leftOffset = x + leftOffset >= 0 ? leftOffset : 0;
 
-		int rightOffset = xPadding;
-		rightOffset = x + getWidth() + rightOffset <= screenWidth ? rightOffset : screenWidth - getWidth() - x;
+    int rightOffset = xPadding;
+    rightOffset =
+        x + getWidth() + rightOffset <= screenWidth ? rightOffset : screenWidth - getWidth() - x;
 
-		int topOffset = -yPadding;
-		topOffset = y + topOffset >= 0 ? topOffset : 0;
+    int topOffset = -yPadding;
+    topOffset = y + topOffset >= 0 ? topOffset : 0;
 
-		int bottomOffset = yPadding;
-		bottomOffset = y + height + bottomOffset <= screenHeight ? bottomOffset : 0;
+    int bottomOffset = yPadding;
+    bottomOffset = y + height + bottomOffset <= screenHeight ? bottomOffset : 0;
 
-		Bitmap bitmap;
-		try {
-			bitmap = getDownscaledBitmapForView(mActivityView.get(),
-					new Rect(pointRelativeToActivityView.x + leftOffset, pointRelativeToActivityView.y + topOffset,
-							pointRelativeToActivityView.x + getWidth() + Math.abs(leftOffset) + rightOffset,
-							pointRelativeToActivityView.y + getHeight() + Math.abs(topOffset) + bottomOffset),
-					mDownscaleFactor);
-		} catch (NullPointerException e) {
-			return null;
-		}
-		bitmap = BlurKit.getInstance().blur(bitmap, mBlurRadius);
-		bitmap = Bitmap.createBitmap(bitmap, (int) (Math.abs(leftOffset) * mDownscaleFactor),
-				(int) (Math.abs(topOffset) * mDownscaleFactor), width, height);
-		setAlpha(1);
+    Bitmap bitmap;
+    try {
+      bitmap =
+          getDownscaledBitmapForView(
+              mActivityView.get(),
+              new Rect(
+                  pointRelativeToActivityView.x + leftOffset,
+                  pointRelativeToActivityView.y + topOffset,
+                  pointRelativeToActivityView.x + getWidth() + Math.abs(leftOffset) + rightOffset,
+                  pointRelativeToActivityView.y + getHeight() + Math.abs(topOffset) + bottomOffset),
+              mDownscaleFactor);
+    } catch (NullPointerException e) {
+      return null;
+    }
+    bitmap = BlurKit.getInstance().blur(bitmap, mBlurRadius);
+    bitmap =
+        Bitmap.createBitmap(
+            bitmap,
+            (int) (Math.abs(leftOffset) * mDownscaleFactor),
+            (int) (Math.abs(topOffset) * mDownscaleFactor),
+            width,
+            height);
+    setAlpha(1);
 
-		return bitmap;
-	}
+    return bitmap;
+  }
 
-	private View getActivityView() {
-		Activity activity;
-		try {
-			activity = (Activity) getContext();
-		} catch (ClassCastException e) {
-			return null;
-		}
+  private View getActivityView() {
+    Activity activity;
+    try {
+      activity = (Activity) getContext();
+    } catch (ClassCastException e) {
+      return null;
+    }
 
-		return activity.getWindow().getDecorView().findViewById(android.R.id.content);
-	}
+    return activity.getWindow().getDecorView().findViewById(android.R.id.content);
+  }
 
-	private Point getPositionInScreen() {
-		return getPositionInScreen(this);
-	}
+  private Point getPositionInScreen() {
+    return getPositionInScreen(this);
+  }
 
-	private Point getPositionInScreen(View view) {
-		if (getParent() == null) {
-			return new Point();
-		}
+  private Point getPositionInScreen(View view) {
+    if (getParent() == null) {
+      return new Point();
+    }
 
-		ViewGroup parent;
-		try {
-			parent = (ViewGroup) view.getParent();
-		} catch (Exception e) {
-			return new Point();
-		}
+    ViewGroup parent;
+    try {
+      parent = (ViewGroup) view.getParent();
+    } catch (Exception e) {
+      return new Point();
+    }
 
-		if (parent == null) {
-			return new Point();
-		}
+    if (parent == null) {
+      return new Point();
+    }
 
-		Point point = getPositionInScreen(parent);
-		point.offset((int) view.getX(), (int) view.getY());
-		return point;
-	}
+    Point point = getPositionInScreen(parent);
+    point.offset((int) view.getX(), (int) view.getY());
+    return point;
+  }
 
-	private Bitmap getDownscaledBitmapForView(View view, Rect crop, float downscaleFactor) throws NullPointerException {
-		View screenView = view.getRootView();
+  private Bitmap getDownscaledBitmapForView(View view, Rect crop, float downscaleFactor)
+      throws NullPointerException {
+    View screenView = view.getRootView();
 
-		int width = (int) (crop.width() * downscaleFactor);
-		int height = (int) (crop.height() * downscaleFactor);
+    int width = (int) (crop.width() * downscaleFactor + 0.5f);
+    int height = (int) (crop.height() * downscaleFactor + 0.5f);
 
-		if (screenView.getWidth() <= 0 || screenView.getHeight() <= 0 || width <= 0 || height <= 0) {
-			throw new NullPointerException();
-		}
+    if (screenView.getWidth() <= 0 || screenView.getHeight() <= 0 || width <= 0 || height <= 0) {
+      throw new NullPointerException();
+    }
 
-		float dx = -crop.left * downscaleFactor;
-		float dy = -crop.top * downscaleFactor;
+    float dx = -crop.left * downscaleFactor;
+    float dy = -crop.top * downscaleFactor;
 
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
-		Canvas canvas = new Canvas(bitmap);
-		Matrix matrix = new Matrix();
-		matrix.preScale(downscaleFactor, downscaleFactor);
-		matrix.postTranslate(dx, dy);
-		canvas.setMatrix(matrix);
-		screenView.draw(canvas);
+    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(bitmap);
+    canvas.scale(downscaleFactor, downscaleFactor);
+    canvas.translate(dx, dy);
+    screenView.draw(canvas);
 
-		return bitmap;
-	}
+    return bitmap;
+  }
 
-	public void setDownscaleFactor(float downscaleFactor) {
-		this.mDownscaleFactor = downscaleFactor;
-		invalidate();
-	}
+  public void setDownscaleFactor(float downscaleFactor) {
+    this.mDownscaleFactor = downscaleFactor;
+    invalidate();
+  }
 
-	public void setBlurRadius(int blurRadius) {
-		this.mBlurRadius = blurRadius;
-		invalidate();
-	}
+  public void setBlurRadius(int blurRadius) {
+    this.mBlurRadius = blurRadius;
+    invalidate();
+  }
 
-	public void setFPS(int fps) {
-		this.mFPS = fps;
-	}
+  public void setFPS(int fps) {
+    this.mFPS = fps;
+  }
 }

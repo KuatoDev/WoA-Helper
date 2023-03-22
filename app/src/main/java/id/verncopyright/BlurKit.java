@@ -14,6 +14,7 @@ package id.kuato.verncopyright;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,32 +26,35 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 
 public class BlurKit {
-
   private static BlurKit instance;
+  private final RenderScript rs;
 
-  private RenderScript rs;
-
-  public static void init(Context context) {
-    if (instance != null) {
-      return;
-    }
-
-    instance = new BlurKit();
-    instance.rs = RenderScript.create(context);
+  private BlurKit(Context context) {
+    rs =RenderScript.create(context);
   }
 
-  public Bitmap blur(Bitmap src, int radius) {
-    final Allocation input = Allocation.createFromBitmap(rs, src);
-    final Allocation output = Allocation.createTyped(rs, input.getType());
-    final ScriptIntrinsicBlur script;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-      script.setRadius(radius);
-      script.setInput(input);
-      script.forEach(output);
+  public static BlurKit getInstance(Context context) {
+    if (instance == null) {
+      instance = new BlurKit(context.getApplicationContext());
     }
-    output.copyTo(src);
-    return src;
+    return instance;
+  }
+
+  public Bitmap blur(Bitmap bitmap, int radius) {
+    Bitmap output =
+        Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+    Allocation input = Allocation.createFromBitmap(rs, bitmap);
+    Allocation outputAllocation = Allocation.createFromBitmap(rs, output);
+    blurScript.setRadius(radius);
+    blurScript.setInput(input);
+    blurScript.forEach(outputAllocation);
+    outputAllocation.copyTo(output);
+    return output;
+  }
+
+  public void destroy() {
+    rs.destroy();
   }
 
   public Bitmap blur(View src, int radius) {
@@ -63,18 +67,16 @@ public class BlurKit {
     return blur(bitmap, radius);
   }
 
-  private Bitmap getBitmapForView(View src, float downscaleFactor) {
+  private Bitmap getBitmapForView(View view, float downscaleFactor) {
     Bitmap bitmap =
         Bitmap.createBitmap(
-            (int) (src.getWidth() * downscaleFactor),
-            (int) (src.getHeight() * downscaleFactor),
-            Bitmap.Config.ARGB_4444);
+            (int) (view.getWidth() * downscaleFactor),
+            (int) (view.getHeight() * downscaleFactor),
+            Bitmap.Config.ARGB_8888);
 
     Canvas canvas = new Canvas(bitmap);
-    Matrix matrix = new Matrix();
-    matrix.preScale(downscaleFactor, downscaleFactor);
-    canvas.setMatrix(matrix);
-    src.draw(canvas);
+    canvas.scale(downscaleFactor, downscaleFactor);
+    view.draw(canvas);
 
     return bitmap;
   }

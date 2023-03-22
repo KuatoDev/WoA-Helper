@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="id.kuato.woahelper">
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
-         <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  package="id.kuato.woahelper">
 
-        <application
-                android:allowBackup="true"
-                android:icon="@mipmap/ic_launcher"
-                android:label="@string/app_name"
-                android:roundIcon="@mipmap/ic_launcher_round"
-                android:supportsRtl="true"
-                android:theme="@style/Theme.MyApplication">
-                <activity
-                        android:name=".vayu.MainActivity"
-                        android:exported="true">
-                        <intent-filter>
-                                <action android:name="android.intent.action.MAIN" />
-                                <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>
-                </activity>
-        </application>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"></uses-permission>
+
+  <application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.MyApplication">
+
+    <activity
+      android:name=".vayu.InitialSetup"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"></action>
+        <category android:name="android.intent.category.LAUNCHER"></category>
+      </intent-filter>
+    </activity>
+    
+    <activity
+      android:name=".vayu.MainActivity"
+      android:exported="true" />
+    
+    <activity
+      android:name=".crash.activity.Erase" />
+
+    <activity
+      android:name=".crash.activity.DefaultErrorActivity"
+      android:process=":error_activity" />
+
+    <provider
+      android:name=".crash.provider.CrashInitProvider"
+      android:authorities="id.kuato.woahelper.crashinitprovider"
+      android:exported="false"
+      android:initOrder="101" />
+
+  </application>
 
 </manifest>

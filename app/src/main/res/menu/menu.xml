@@ -1,0 +1,33 @@
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:id.kuato.diskhealth="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <item
+    android:id="@+id/menu_telegram"
+    android:icon="@drawable/ic_telegram"
+    android:orderInCategory="1"
+    android:title="@string/telegram"
+    id.kuato.diskhealth:showAsAction="withText" />
+  <item
+    android:id="@+id/menu_instagram"
+    android:icon="@drawable/ic_instagram"
+    android:orderInCategory="2"
+    android:title="@string/instagram"
+    id.kuato.diskhealth:showAsAction="withText" />
+  <item
+    android:id="@+id/menu_youtube"
+    android:icon="@drawable/ic_youtube"
+    android:orderInCategory="3"
+    android:title="@string/youtube"
+    id.kuato.diskhealth:showAsAction="withText" />
+
+  <item
+    android:id="@+id/menu_paypal"
+    android:icon="@drawable/ic_paypal"
+    android:orderInCategory="4"
+    android:title="@string/paypal"
+    id.kuato.diskhealth:showAsAction="withText" />
+
+</menu>

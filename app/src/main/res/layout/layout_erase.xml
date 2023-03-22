@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  android:background="?attr/colorSurfaceVariant"
+  android:id="@+id/coordinator">
+
+  <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_marginHorizontal="8dp"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <ImageView
+      android:layout_height="92dp"
+      android:layout_width="92dp"
+      android:src="@drawable/ic_wink"
+      android:scaleType="fitXY"
+      android:id="@+id/iv_erase"
+      android:layout_gravity="center" />
+    
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+      android:id="@+id/progress"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:indeterminate="true" />
+   
+    <TextView
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:id="@+id/tv_erase"
+      android:textAlignment="inherit"
+      android:layout_gravity="center" />
+  </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,32 +15,25 @@ package id.kuato.woahelper.util;
  *  * See the License for the specific language governing permissions and
  *  * limitations under the License.
  *  */
-import android.content.Context;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Optional;
 
 public class ShellUtils {
-	public static String Executer(String command) {
-		StringBuffer output = new StringBuffer();
-		Process p;
-		String response;
-		try {
-			p = Runtime.getRuntime().exec(command);
-			p.waitFor();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				output.append(line);
-			}
-			reader.close();
-			response = output.toString();
-		} catch (Exception e) {
-			response = "Exception: " + e.toString();
-		}
-		return response;
-	}
-
+  public static String executeCommand(String command) {
+    try {
+      Process process = Runtime.getRuntime().exec(command);
+      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      StringBuilder output = new StringBuilder();
+      String line;
+      while ((line = reader.readLine()) != null) {
+        output.append(line).append("\n");
+      }
+      reader.close();
+      process.destroy();
+      return output.toString();
+    } catch (IOException e) {
+      return "Exception: " + e.getMessage();
+    }
+  }
 }

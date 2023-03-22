@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  android:layout_marginBottom="24dp"
+  android:orientation="vertical"
+  android:layout_marginTop="2dp"
+  android:paddingHorizontal="10dp">
+
+  <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="1">
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      app:cardBackgroundColor="@color/colorSurface"
+      android:animateLayoutChanges="true"
+      app:cardMaxElevation="0dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:elevation="@dimen/cardElevation"
+      android:padding="@dimen/parentMargin"
+      android:stateListAnimator="@anim/state_list_anim"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:minHeight="96dp"
+      android:layout_margin="4dp"
+      style="@style/Widget.Material3.CardView.Filled"
+      app:cardCornerRadius="@dimen/cardCornerRadius"
+      android:layout_weight="1"
+      android:id="@+id/cv_backup_boot">
+
+      <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:drawableBottom="@drawable/ic_linux"
+          android:id="@+id/tv_backup_boot"
+          android:textStyle="bold" />
+
+        <View
+          android:layout_height="1dp"
+          android:layout_width="match_parent"
+          android:background="?attr/colorPrimaryInverse"
+          android:layout_marginTop="4dp" />
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:textAlignment="inherit"
+          android:padding="12dp"
+          android:textSize="10dp"
+          android:maxLines="3"
+          android:id="@+id/tv_backup_subtitle"
+          android:textStyle="italic" />
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      app:cardBackgroundColor="@color/colorSurface"
+      android:animateLayoutChanges="true"
+      app:cardMaxElevation="0dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:elevation="@dimen/cardElevation"
+      android:padding="@dimen/parentMargin"
+      android:stateListAnimator="@anim/state_list_anim"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:minHeight="96dp"
+      android:layout_margin="4dp"
+      style="@style/Widget.Material3.CardView.Filled"
+      app:cardCornerRadius="@dimen/cardCornerRadius"
+      android:layout_weight="1"
+      android:id="@+id/cv_provision_sensor">
+
+      <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:drawableBottom="@drawable/ic_rotate"
+          android:id="@+id/tv_dump_sensor"
+          android:textStyle="bold" />
+
+        <View
+          android:layout_height="1dp"
+          android:layout_width="match_parent"
+          android:background="?attr/colorPrimaryInverse"
+          android:layout_marginTop="4dp" />
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:textAlignment="inherit"
+          android:padding="12dp"
+          android:textSize="10dp"
+          android:maxLines="3"
+          android:id="@+id/tv_sensor_subtitle"
+          android:textStyle="italic" />
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="1">
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      app:cardBackgroundColor="@color/colorSurface"
+      android:animateLayoutChanges="true"
+      app:cardMaxElevation="0dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:elevation="@dimen/cardElevation"
+      android:padding="@dimen/parentMargin"
+      android:stateListAnimator="@anim/state_list_anim"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:minHeight="96dp"
+      android:layout_margin="4dp"
+      style="@style/Widget.Material3.CardView.Filled"
+      app:cardCornerRadius="@dimen/cardCornerRadius"
+      android:layout_weight="1"
+      android:id="@+id/cv_provision_modem">
+
+      <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:drawableBottom="@drawable/ic_signal"
+          android:id="@+id/tv_dump_modem"
+          android:textStyle="bold" />
+
+        <View
+          android:layout_height="1dp"
+          android:layout_width="match_parent"
+          android:background="?attr/colorPrimaryInverse"
+          android:layout_marginTop="4dp" />
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:textAlignment="inherit"
+          android:padding="12dp"
+          android:textSize="10dp"
+          android:maxLines="3"
+          android:id="@+id/tv_modem_subtitle"
+          android:textStyle="italic" />
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      app:cardBackgroundColor="@color/colorSurface"
+      android:animateLayoutChanges="true"
+      app:cardMaxElevation="0dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:elevation="@dimen/cardElevation"
+      android:padding="@dimen/parentMargin"
+      android:stateListAnimator="@anim/state_list_anim"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:minHeight="96dp"
+      android:layout_margin="4dp"
+      style="@style/Widget.Material3.CardView.Filled"
+      app:cardCornerRadius="@dimen/cardCornerRadius"
+      android:layout_weight="1"
+      android:id="@+id/cv_flash_uefi">
+
+      <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:drawableBottom="@drawable/ic_uefi"
+          android:id="@+id/tv_flash_uefi"
+          android:textStyle="bold" />
+
+        <View
+          android:layout_height="1dp"
+          android:layout_width="match_parent"
+          android:background="?attr/colorPrimaryInverse"
+          android:layout_marginTop="4dp" />
+
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:textAlignment="inherit"
+          android:padding="12dp"
+          android:textSize="10dp"
+          android:maxLines="3"
+          android:id="@+id/tv_uefi_subtitle"
+          android:textStyle="italic" />
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_weight="1">
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      app:cardBackgroundColor="@color/colorSurface"
+      android:animateLayoutChanges="true"
+      app:cardMaxElevation="0dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:elevation="@dimen/cardElevation"
+      android:padding="@dimen/parentMargin"
+      android:stateListAnimator="@anim/state_list_anim"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:gravity="center"
+      android:minHeight="96dp"
+      android:layout_margin="4dp"
+      style="@style/Widget.Material3.CardView.Filled"
+      app:cardCornerRadius="@dimen/cardCornerRadius"
+      android:layout_weight="1"
+      android:id="@+id/cv_quickboot">
+
+      <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_margin="4dp"
+        android:orientation="horizontal">
+
+        <ImageView
+          android:layout_height="48dp"
+          android:layout_width="48dp"
+          android:src="@drawable/ic_launcher_foreground"
+          android:scaleType="fitXY" />
+
+        <LinearLayout
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_quick_boot"
+            android:textStyle="bold" />
+
+          <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="10dp"
+            android:id="@+id/tv_boot_subtitle"
+            android:textStyle="italic" />
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      app:cardBackgroundColor="@color/colorSurface"
+      android:animateLayoutChanges="true"
+      app:cardMaxElevation="0dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:elevation="@dimen/cardElevation"
+      android:padding="@dimen/parentMargin"
+      android:stateListAnimator="@anim/state_list_anim"
+      android:foreground="?android:attr/selectableItemBackground"
+      android:gravity="center"
+      android:minHeight="96dp"
+      android:layout_margin="4dp"
+      style="@style/Widget.Material3.CardView.Filled"
+      app:cardCornerRadius="@dimen/cardCornerRadius"
+      android:layout_weight="1"
+      android:id="@+id/cv_flash_ntfs">
+
+      <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_margin="4dp"
+        android:orientation="horizontal">
+
+        <ImageView
+          android:layout_height="48dp"
+          android:layout_width="48dp"
+          android:src="@drawable/ic_magisk"
+          android:scaleType="fitXY" />
+
+        <LinearLayout
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_flashntfs_title"
+            android:text="Flash NTFS-3G"
+            android:textStyle="bold" />
+
+          <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="10dp"
+            android:id="@+id/tv_flashntfs_subtitle"
+            android:text="Flash NTFS-3G Magisk Module so that it can mount the windows partition"
+            android:textStyle="italic" />
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+  </LinearLayout>
+
+</LinearLayout>

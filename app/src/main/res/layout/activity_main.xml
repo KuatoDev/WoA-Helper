@@ -1,52 +1,53 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinator"
-        android:layout_width="match_parent"
-        tools:context=".MainActivity"
-        android:layout_height="match_parent">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/coordinator"
+  android:layout_width="match_parent"
+  tools:context=".MainActivity"
+  android:fitsSystemWindows="false"
+  android:background="?attr/colorSurfaceVariant"
+  android:layout_height="match_parent">
 
-        <include
-                android:id="@+id/toolbarlayout"
-                layout="@layout/toolbar"></include>
+  <include
+    android:id="@+id/toolbarlayout"
+    layout="@layout/toolbar" />
 
-        <androidx.core.widget.NestedScrollView
-                android:id="@+id/nested_scroll_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+  <androidx.core.widget.NestedScrollView
+    android:id="@+id/nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
 
-                        <include
-                                android:id="@+id/dashboard"
-                                layout="@layout/dashboard"></include>
+      <include
+        android:id="@+id/dashboard"
+        layout="@layout/dashboard" />
 
-                        <include
-                                android:id="@+id/mainbutton"
-                                layout="@layout/main_button"></include>
+      <include
+        android:id="@+id/mainbutton"
+        layout="@layout/main_button" />
 
-                </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-        <include
-                android:id="@+id/topbar"
-                layout="@layout/top_bar"></include>
+    </LinearLayout>
+  </androidx.core.widget.NestedScrollView>
 
-        <id.kuato.verncopyright.BlurLayout
-                android:id="@+id/blur"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:clipToOutline="true"></id.kuato.verncopyright.BlurLayout>
-        <TextView
-                android:id="@+id/tvAppCreator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="9dp"
-                android:layout_gravity="bottom|end"></TextView>
+  <id.kuato.verncopyright.BlurLayout
+    android:id="@+id/blur"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:clipToOutline="true" />
+
+  <TextView
+    android:id="@+id/tvAppCreator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="12dp"
+    android:layout_marginRight="14dp"
+    android:layout_gravity="bottom|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
