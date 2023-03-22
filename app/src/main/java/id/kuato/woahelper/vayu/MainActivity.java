@@ -28,7 +28,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.content.res.ResourcesCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.itsaky.androidide.logsender.LogSender;
+//import com.itsaky.androidide.logsender.LogSender; 
 import id.kuato.woahelper.BuildConfig;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
