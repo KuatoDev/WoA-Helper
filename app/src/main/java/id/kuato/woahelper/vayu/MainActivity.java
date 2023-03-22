@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    LogSender.startLogging(this);
+   // LogSender.startLogging(this);
     super.onCreate(savedInstanceState);
     x = ActivityMainBinding.inflate(getLayoutInflater());
 
