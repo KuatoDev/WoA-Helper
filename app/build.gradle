@@ -11,9 +11,9 @@ android {
         minSdk 30
         targetSdk 32
         versionCode 1
-        versionName "2.0 Alpha Test"
+        versionName "2.0"
     }
-lint {
+    lint {
         baseline = file("lint-baseline.xml")
         disable 'TypographyFractions','TypographyQuotes'
         enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
@@ -23,11 +23,22 @@ lint {
         ignoreWarnings true
         checkDependencies true
     }
+    signingConfigs {
+        release {
+            v1SigningEnabled true        
+            v2SigningEnabled true
+            storeFile file("/storage/emulated/0/AndroidIDEProjects/KuatoDev.jks")
+            storePassword "nim13100472"
+            keyAlias "KuatoDev"
+            keyPassword "nim13100472"
+        }
+    }
     
     buildTypes {
         release {
             ext.enableCrashlytics = true
             multiDexEnabled true
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
@@ -36,6 +47,7 @@ lint {
     buildTypes {
         debug {
             ext.enableCrashlytics = true
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
@@ -64,4 +76,10 @@ dependencies {
     implementation "androidx.palette:palette:1.0.0"
     implementation "androidx.work:work-runtime:2.7.0-alpha05"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+      
+def libsu = "5.0.4"
+    implementation "com.github.topjohnwu.libsu:core:$libsu"
+    implementation "com.github.topjohnwu.libsu:service:$libsu"
+    implementation "com.github.topjohnwu.libsu:nio:$libsu"
+    
  }
