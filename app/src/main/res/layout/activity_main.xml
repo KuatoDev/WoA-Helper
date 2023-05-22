@@ -1,53 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/coordinator"
-  android:layout_width="match_parent"
-  tools:context=".MainActivity"
-  android:fitsSystemWindows="false"
-  android:background="?attr/colorSurfaceVariant"
-  android:layout_height="match_parent">
-
-  <include
-    android:id="@+id/toolbarlayout"
-    layout="@layout/toolbar" />
-
-  <androidx.core.widget.NestedScrollView
-    android:id="@+id/nested_scroll_view"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical">
-
-      <include
-        android:id="@+id/dashboard"
-        layout="@layout/dashboard" />
-
-      <include
-        android:id="@+id/mainbutton"
-        layout="@layout/main_button" />
-
-    </LinearLayout>
-  </androidx.core.widget.NestedScrollView>
-
-  <id.kuato.verncopyright.BlurLayout
-    android:id="@+id/blur"
+    android:id="@+id/mainview"
+    android:background="?attr/colorSurfaceVariant"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:clipToOutline="true" />
+    android:fitsSystemWindows="true"
+    tools:context=".ui.MainActivity">
 
-  <TextView
-    android:id="@+id/tvAppCreator"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="12dp"
-    android:layout_marginRight="14dp"
-    android:layout_gravity="bottom|end" />
+    <include
+        android:id="@+id/toolbarlayout"
+        layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/nsv"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:animateLayoutChanges="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/dashboard"
+                layout="@layout/dashboard" />
+
+            <include
+                android:id="@+id/mainbutton"
+                layout="@layout/main_button" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <id.kuato.verncopyright.BlurLayout
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clipToOutline="true" />
+
+    <TextView
+        android:id="@+id/tvAppCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginRight="14dp"
+        android:layout_gravity="bottom|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

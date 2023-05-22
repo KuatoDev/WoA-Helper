@@ -16,7 +16,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import id.kuato.woahelper.function.Identification;
+import com.topjohnwu.superuser.Shell;
+import com.topjohnwu.superuser.Shell;
+import id.kuato.woahelper.function.Parameters;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.LayoutInitialSetupBinding;
 import id.kuato.woahelper.function.AnimateTransition;
@@ -24,8 +26,8 @@ import id.kuato.woahelper.function.CopyAssets;
 import id.kuato.woahelper.function.Formatter;
 import id.kuato.woahelper.function.RAM;
 import id.kuato.woahelper.preference.VernPreference;
-import id.kuato.woahelper.util.ShellUtils;
-
+import id.kuato.woahelper.util.Command;
+import id.kuato.woahelper.BuildConfig;
 import java.io.File;
 import java.io.IOException;
 
@@ -35,11 +37,16 @@ public class InitialSetup extends AppCompatActivity {
   private static final String UEFI_FOLDER_NAME = "UEFI";
   private static final String NTFS_ZIP_FILE_NAME = "ntfs.zip";
   private static final String MODULES_FOLDER_NAME = "MODULES";
-
   private static int ramvalue = 0;
   private static String panel = "unknown";
   String run;
   Handler handler = new Handler(Looper.getMainLooper());
+
+  static {
+    Shell.enableVerboseLogging = BuildConfig.DEBUG;
+    Shell.setDefaultBuilder(
+        Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +91,7 @@ public class InitialSetup extends AppCompatActivity {
     }
     v.tvSetup.setText("Identify Touchpanel");
     try {
-      run = ShellUtils.executeCommand("su -c cat /proc/cmdline");
+      run = Command.executeCommand("cat /proc/cmdline");
     } catch (Exception e) {
       Log.e("InitialSetup", "Failed to identify panel and RAM", e);
     }
@@ -133,9 +140,9 @@ public class InitialSetup extends AppCompatActivity {
 
   public void startActivity() {
     Intent i = new Intent(this, MainActivity.class);
-    i.putExtra("boot_backup", new Identification().kernelHasBackup());
-    i.putExtra("support_ntfs", new Identification().hasSupportNTFS());
-    i.putExtra("windows_installed", new Identification().isWindowsInstalled());
+    i.putExtra("boot_backup", new Parameters().kernelHasBackup());
+    i.putExtra("support_ntfs", new Parameters().hasSupportNTFS());
+    i.putExtra("windows_installed", new Parameters().isWindowsInstalled());
     startActivity(i);
     finishAffinity();
   }

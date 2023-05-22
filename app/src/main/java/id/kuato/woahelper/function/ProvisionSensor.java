@@ -1,37 +1,32 @@
 package id.kuato.woahelper.function;
 
 import id.kuato.woahelper.function.ProvisionSensor;
-import id.kuato.woahelper.util.ShellUtils;
+import id.kuato.woahelper.util.Command;
 
 public class ProvisionSensor {
-  private static final String mountCommand =
-      "su -c mkdir /mnt/Windows; su -c mount.ntfs /dev/block/by-name/win /mnt/Windows";
-  private static final String umountCommand = "su -c umount /mnt/Windows";
+  // mount windows
+  private static final String mount_command =
+      "mkdir /mnt/Windows; mount.ntfs /dev/block/by-name/win /mnt/Windows";
+  // umount windows
+  private static final String umount_command = "umount /mnt/Windows";
+  // Provision sensors
+  private static final String provision_sensors =
+      "mkdir /mnt/persist; "
+          + "mount /dev/block/by-name/persist /mnt/persist; "
+          + "mkdir -p /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist; "
+          + "rm -rf /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/sensors; "
+          + "cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/; "
+          + "umount /mnt/persist; "
+          + "rm -r /mnt/persist ";
 
   public ProvisionSensor() {
-    boolean isWindowsInstalled = new Identification().isWindowsInstalled();
-    if (!isWindowsInstalled) {
-      ShellUtils.executeCommand(
-          " su -c mkdir /mnt/persist; "
-              + "su -c mount /dev/block/by-name/persist /mnt/persist; "
-              + "su -c mkdir -p /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist; "
-              + "su -c rm -rf /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/sensors; "
-              + "su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/; "
-              + "su -c umount /mnt/persist; "
-              + "&& su -c rmdir /mnt/persist ");
+    boolean windowsIsMounted = new Parameters().windowsIsMounted();
+    if (!windowsIsMounted) {
+      Command.executeCommand(provision_sensors);
     } else {
-      ShellUtils.executeCommand(mountCommand);
-      ShellUtils.executeCommand(
-          "if [ ! -d '/mnt/Windows' ]; then su -c mkdir /mnt/Windows; fi "
-              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-              + "&& su -c mkdir /mnt/persist "
-              + "&& su -c mount /dev/block/by-name/persist /mnt/persist "
-              + "&& su -c mkdir -p /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist "
-              + "&& su -c rm -rf /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/sensors "
-              + "&& su -c cp -r /mnt/persist/sensors /mnt/Windows/Windows/System32/drivers/DriverData/QUALCOMM/fastRPC/persist/ "
-              + "&& su -c umount /mnt/persist "
-              + "&& su -c umount /mnt/Windows "
-              + "&& su -c rmdir /mnt/persist ");
+      Command.executeCommand(mount_command);
+      Command.executeCommand(provision_sensors);
     }
+    Command.executeCommand(umount_command);
   }
 }

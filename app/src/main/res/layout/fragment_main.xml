@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  android:background="?attr/colorSurfaceVariant"
+  android:fitsSystemWindows="true"
+  tools:context=".ui.FragmentActivity">
+
+  <include
+    android:id="@+id/toolbarlayout"
+    layout="@layout/toolbar" />
+
+  <androidx.core.widget.NestedScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_below="@id/appbar">
+
+    <FrameLayout
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:paddingBottom="128dp"
+      android:id="@+id/frame">
+
+    </FrameLayout>
+
+  </androidx.core.widget.NestedScrollView>
+
+  <id.kuato.verncopyright.BlurLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/blur"
+    android:layout_gravity="center" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

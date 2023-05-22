@@ -11,7 +11,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.LayoutEraseBinding;
-import id.kuato.woahelper.util.ShellUtils;
+import id.kuato.woahelper.util.Command;
 
 public class Erase extends AppCompatActivity {
   private LayoutEraseBinding e;
@@ -41,7 +41,7 @@ public class Erase extends AppCompatActivity {
           public void run() {
             e.progress.setVisibility(View.GONE);
             e.tvErase.setText(getString(R.string.format));
-            ShellUtils.executeCommand("su -c pm uninstall id.kuato.woahelper");
+            Command.executeCommand("su -c pm uninstall id.kuato.woahelper");
           }
         },
         10000);

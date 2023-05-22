@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_height="wrap_content"
+  android:layout_width="match_parent"
+  android:clickable="true"
+  android:stateListAnimator="@anim/state_list_anim"
+  app:cardBackgroundColor="@color/colorSurface"
+  style="@style/Widget.Material3.CardView.Filled"
+  app:cardCornerRadius="0dp"
+  android:foreground="?android:attr/selectableItemBackground">
+
+  <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_marginVertical="12dp"
+    android:layout_marginHorizontal="12dp"
+    android:orientation="horizontal">
+
+    <FrameLayout
+      android:layout_height="42dp"
+      android:layout_width="42dp"
+      android:background="@drawable/ic_background"
+      android:layout_marginRight="8dp"
+      android:layout_gravity="center">
+
+      <ImageView
+        android:layout_height="28dp"
+        android:layout_width="28dp"
+        android:id="@android:id/icon"
+        android:layout_gravity="center" />
+
+    </FrameLayout>
+    <LinearLayout
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:gravity="center_vertical"
+      android:orientation="vertical">
+
+      <TextView
+        android:fontFamily="@font/sanfranciscoprorounded"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:fadingEdge="horizontal"
+        android:ellipsize="marquee"
+        android:textSize="11sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:singleLine="true"
+        android:id="@android:id/title"
+        android:text="title"
+        android:textStyle="bold" />
+
+      <TextView
+        android:fontFamily="@font/sanfranciscoprorounded"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="11sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:id="@android:id/summary"
+        android:text="summary"
+        android:textStyle="normal" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

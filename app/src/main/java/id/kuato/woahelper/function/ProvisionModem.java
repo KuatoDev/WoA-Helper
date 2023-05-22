@@ -1,28 +1,26 @@
 package id.kuato.woahelper.function;
 
-import id.kuato.woahelper.util.ShellUtils;
+import id.kuato.woahelper.util.Command;
 
 public class ProvisionModem {
-
-  private static final String mountCommand =
-      "su -c mkdir /mnt/Windows; su -c mount.ntfs /dev/block/by-name/win /mnt/Windows";
-  private static final String umountCommand = "su -c umount /mnt/Windows";
+  // mount windows
+  private static final String mount_command =
+      "mkdir /mnt/Windows; mount.ntfs /dev/block/by-name/win /mnt/Windows";
+  // unmount windows
+  private static final String umount_command = "umount /mnt/Windows";
+  // Provisioning modem
+  private static final String provision_command =
+      "mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ && mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/";
 
   public ProvisionModem() {
-    boolean isWindowsInstalled = new Identification().isWindowsInstalled();
-    if (!isWindowsInstalled) {
-      ShellUtils.executeCommand(
-          "su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/;"
-              + "su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ ");
+    boolean windowsIsMounted = new Parameters().windowsIsMounted();
+    if (!windowsIsMounted) {
+      Command.executeCommand(mount_command);
+      Command.executeCommand(provision_command);
+      Command.executeCommand(umount_command);
     } else {
-      ShellUtils.executeCommand(mountCommand);
-      ShellUtils.executeCommand(
-          "if [ -d \"/mnt/Windows\" ]; then su -c umount /mnt/Windows; su -c rm -r /mnt/Windows; fi "
-              + "&& su -c mkdir /mnt/Windows "
-              + "&& su -c mount.ntfs /dev/block/by-name/win /mnt/Windows "
-              + "&& su -c mv /sdcard/bootmodem_fs1 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-              + "&& su -c mv /sdcard/bootmodem_fs2 /mnt/Windows/Windows/System32/DriverStore/FileRepository/qcremotefs8150.inf_arm64_4271239f52792d6b/ "
-              + "&& su -c umount /mnt/Windows");
+      Command.executeCommand(provision_command);
     }
+    Command.executeCommand(umount_command);
   }
 }

@@ -14,31 +14,38 @@ package id.kuato.woahelper.vayu;
  *  * See the License for the specific language governing permissions and
  *  * limitations under the License.
  *  */
-import android.app.Dialog;
+import com.google.android.material.snackbar.Snackbar;
+
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.widget.Button;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.view.Window;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-//import com.itsaky.androidide.logsender.LogSender; 
 import id.kuato.woahelper.BuildConfig;
 import id.kuato.woahelper.R;
 import id.kuato.woahelper.databinding.ActivityMainBinding;
 import id.kuato.woahelper.function.IntentAction;
 import id.kuato.woahelper.function.ProvisionModem;
+import id.kuato.woahelper.function.Parameters;
 import id.kuato.woahelper.function.ProvisionSensor;
 import id.kuato.woahelper.preference.VernPreference;
-
-import id.kuato.woahelper.util.ShellUtils;
-import id.kuato.woahelper.vayu.util.Utils;
+import id.kuato.woahelper.util.Command;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,18 +68,21 @@ public class MainActivity extends AppCompatActivity {
   private static String modulepath;
   private static String uefipath;
   private static final String backupBootCommand =
-      "su -c dd if=/dev/block/by-name/boot of=/mnt/sdcard/woahelper/boot.img";
-  private static final String uefiname = "v2.1.0";
+      "dd if=/dev/block/by-name/boot of=/mnt/sdcard/woahelper/boot.img";
+  private static final String uefiname = "Prebuilt (v2.1.0)";
+  public static String selecteduefi = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-   // LogSender.startLogging(this);
     super.onCreate(savedInstanceState);
     x = ActivityMainBinding.inflate(getLayoutInflater());
 
     setContentView(x.getRoot());
 
-    Utils.setDecorUI(this);
+    Window window = getWindow();
+    window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorSurfaceVariant));
+
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
     Drawable icon =
         ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher_foreground, null);
     int colorPrimary = getColor(R.color.colorPrimary);
@@ -82,13 +92,17 @@ public class MainActivity extends AppCompatActivity {
     boolean isKernelBackup = getIntent().getBooleanExtra("boot_backup", false);
     boolean isNtfsSupport = getIntent().getBooleanExtra("support_ntfs", false);
     boolean isWindowsInstalled = getIntent().getBooleanExtra("windows_installed", false);
-
+    boolean isWindowsMounted = new Parameters().windowsIsMounted();
     if (isNtfsSupport) {
       x.mainbutton.cvFlashNtfs.setVisibility(View.GONE);
     } else {
       x.mainbutton.cvProvisionModem.setVisibility(View.GONE);
       x.mainbutton.cvProvisionSensor.setVisibility(View.GONE);
     }
+    x.dashboard.tvWindowsMounted.setText(
+        !isWindowsMounted
+            ? String.format(getString(R.string.windows_mounted), getString(R.string.no))
+            : String.format(getString(R.string.windows_mounted), getString(R.string.yes)));
 
     x.dashboard.tvBackupStatus.setText(
         !isKernelBackup
@@ -115,23 +129,23 @@ public class MainActivity extends AppCompatActivity {
         String.format(getString(R.string.app_subtitle), BuildConfig.VERSION_NAME));
     x.toolbarlayout.toolbar.setNavigationIcon(icon);
     x.toolbarlayout.toolbar.inflateMenu(R.menu.menu);
+    x.dashboard.tvUefiVersion.setText(String.format(getString(R.string.uefi_version), uefiname));
+    /*  x.dashboard.menubar.cvGuide.setOnClickListener(
+            view -> {
+              new IntentAction(this, "https://github.com/Icesito68/Port-Windows-11-Poco-X3-pro");
+            });
 
-    x.dashboard.menubar.cvGuide.setOnClickListener(
-        view -> {
-          IntentAction.intent(this, "https://github.com/Icesito68/Port-Windows-11-Poco-X3-pro");
-        });
-
-    x.dashboard.menubar.cvGroup.setOnClickListener(
-        view -> {
-          IntentAction.intent(this, "https://t.me/winonvayu");
-        });
-
+        x.dashboard.menubar.cvGroup.setOnClickListener(
+            view -> {
+              new IntentAction(this, "https://t.me/winonvayu");
+            });
+    */
     x.mainbutton.cvFlashNtfs.setOnClickListener(
         view -> {
           showDialog(
               getString(R.string.flash_ntfs),
               "Success",
-              "su -c magisk --install-module " + modulepath + "/ntfs.zip");
+              "magisk --install-module " + modulepath + "/ntfs.zip");
         });
 
     x.mainbutton.cvQuickboot.setOnClickListener(
@@ -140,11 +154,11 @@ public class MainActivity extends AppCompatActivity {
               getString(R.string.quickboot_question),
               getString(R.string.reboot_windows),
               provmodem
-                  + " && su -c dd if="
+                  + " && dd if="
                   + uefipath
                   + "/"
                   + uefi
-                  + " of=/dev/block/by-name/boot && su -c reboot");
+                  + " of=/dev/block/by-name/boot && reboot");
         });
 
     x.mainbutton.cvProvisionSensor.setOnClickListener(
@@ -154,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     x.mainbutton.cvProvisionModem.setOnClickListener(
         view -> {
-          dialogSensors();
+          dialogModem();
         });
 
     x.mainbutton.cvFlashUefi.setOnClickListener(
@@ -162,13 +176,13 @@ public class MainActivity extends AppCompatActivity {
           showDialog(
               String.format(getString(R.string.flash_uefi_question), panel, ram),
               String.format(getString(R.string.flash_uefi_successfull), panel, ram),
-              "su -c dd if=" + uefipath + "/" + uefi + " of=/dev/block/by-name/boot");
+              "dd if=" + uefipath + "/" + uefi + " of=/dev/block/by-name/boot");
         });
 
     x.mainbutton.cvBackupBoot.setOnClickListener(
         view -> {
           try {
-            ShellUtils.executeCommand("su -c mkdir /mnt/sdcard/woahelper");
+            Command.executeCommand("mkdir /mnt/sdcard/woahelper");
           } catch (Exception io) {
             io.printStackTrace();
           }
@@ -177,9 +191,12 @@ public class MainActivity extends AppCompatActivity {
               getString(R.string.backup_successfull),
               backupBootCommand);
           x.dashboard.tvBackupStatus.setText(
-              isKernelBackup
-                  ? String.format(getString(R.string.backup_status), getString(R.string.no))
-                  : String.format(getString(R.string.backup_status), getString(R.string.yes)));
+              String.format(getString(R.string.backup_status), getString(R.string.yes)));
+        });
+
+    x.mainbutton.cvSelectUefi.setOnClickListener(
+        view -> {
+          selectUefiDialog();
         });
   }
 
@@ -193,37 +210,19 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-      case R.id.menu_youtube:
-        Youtube();
-        return true;
-      case R.id.menu_telegram:
-        Channel();
-        return true;
-      case R.id.menu_paypal:
-        Paypal();
-        return true;
-      case R.id.menu_instagram:
-        Instagram();
+      case R.id.menu_settings:
+        startSettingsActivity();
         return true;
       default:
         return super.onOptionsItemSelected(item);
     }
   }
 
-  public void Paypal() {
-    IntentAction.intent(this, "https://www.paypal.me/vernkutato");
-  }
-
-  public void Instagram() {
-    IntentAction.intent(this, "https://www.instagram.com/kutodev/");
-  }
-
-  public void Youtube() {
-    IntentAction.intent(this, "https://www.youtube.com/cuatzstress");
-  }
-
-  public void Channel() {
-    IntentAction.intent(this, "https/t.me/vernkuato/");
+  public void startSettingsActivity() {
+    Intent intent = new Intent(getApplicationContext(), FragmentActivity.class);
+    ActivityOptionsCompat options =
+        ActivityOptionsCompat.makeCustomAnimation(this, R.anim.fade_in, R.anim.fade_out);
+    ActivityCompat.startActivity(this, intent, options.toBundle());
   }
 
   public void showBlur(boolean show) {
@@ -296,110 +295,236 @@ public class MainActivity extends AppCompatActivity {
     x.mainbutton.tvUefiSubtitle.setText(
         String.format(getString(R.string.flash_uefi_subtitle), panel, ram));
 
-    x.dashboard.tvUefiVersion.setText(String.format(getString(R.string.uefi_version), uefiname));
     x.dashboard.tvRamvalue.setText(String.format(getString(R.string.ramvalue), ram));
     x.dashboard.tvPanel.setText(String.format(getString(R.string.paneltype), panel.toUpperCase()));
   }
 
   @Override
   public void onBackPressed() {
+    Drawable backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.dialog_background);
     showBlur(true);
-    new MaterialAlertDialogBuilder(this)
-        .setTitle(R.string.exit_app)
-        .setPositiveButton(R.string.exit, (dialog, which) -> finish())
-        .setNegativeButton(R.string.cancel, (dialog, which) -> showBlur(false))
-        .setCancelable(false)
-        .show();
-  }
-
-  public void showDialog(String message1, String message2, String command) {
-    final Dialog dialog = new Dialog(MainActivity.this);
-    dialog.setContentView(R.layout.dialog);
-    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-    MaterialButton yesButton = dialog.findViewById(R.id.yes);
-    MaterialButton dismissButton = dialog.findViewById(R.id.dismiss);
-    TextView messageView = dialog.findViewById(R.id.messages);
-
-    yesButton.setVisibility(View.VISIBLE);
-    showBlur(true);
-    messageView.setText(message1);
-    yesButton.setText(R.string.yes);
-
-    yesButton.setOnClickListener(
-        v -> {
-          yesButton.setVisibility(View.GONE);
-          dismissButton.setVisibility(View.GONE);
-          messageView.setText(R.string.please_wait);
-          handler.postDelayed(
-              () -> {
-                try {
-                  String result = ShellUtils.executeCommand(command);
-                  messageView.setText(result + "\n" + message2);
-                  dismissButton.setVisibility(View.VISIBLE);
-                } catch (Exception error) {
-                  error.printStackTrace();
-                }
-              },
-              1000);
+    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+    builder.setMessage(R.string.exit_app);
+    builder.setBackground(backgroundDrawable);
+    AlertDialog dialog = builder.create();
+    Window window = dialog.getWindow();
+    if (window != null) {
+      window.setWindowAnimations(R.style.DialogAnimation);
+    }
+    dialog.setOnShowListener(
+        dialogInterface -> {
+          Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+          positiveButton.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         });
-
-    dismissButton.setText(R.string.dismiss);
-    dismissButton.setOnClickListener(
-        v -> {
+    dialog.setButton(
+        DialogInterface.BUTTON_POSITIVE,
+        getString(R.string.yes),
+        (dialogInterface, which) -> finish());
+    dialog.setOnCancelListener(
+        dialogInterface -> {
           showBlur(false);
           dialog.dismiss();
         });
+    dialog.show();
+  }
 
-    dialog.setCancelable(false);
+  public void showDialog(String message1, String message2, String command) {
+    Drawable backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.dialog_background);
+    showBlur(true);
+    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+    builder.setMessage(message1);
+    builder.setBackground(backgroundDrawable);
+    AlertDialog dialog = builder.create();
+    Window window = dialog.getWindow();
+    if (window != null) {
+      window.setWindowAnimations(R.style.DialogAnimation);
+    }
+
+    dialog.setOnShowListener(
+        dialogInterface -> {
+          Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+          positiveButton.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        });
+    dialog.setButton(
+        DialogInterface.BUTTON_POSITIVE,
+        getString(R.string.yes),
+        (dialogInterface, which) ->
+            handler.postDelayed(
+                () -> {
+                  try {
+                    Command.executeCommand(command);
+                  } catch (Exception error) {
+                    error.printStackTrace();
+                  }
+                  snackBar(message2);
+                  showBlur(false);
+                },
+                500));
+    dialog.setOnCancelListener(
+        dialogInterface -> {
+          showBlur(false);
+          dialog.dismiss();
+        });
     dialog.show();
   }
 
   public void dialogModem() {
+    Drawable backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.dialog_background);
     showBlur(true);
-    new MaterialAlertDialogBuilder(MainActivity.this)
-        .setTitle(getString(R.string.provision_modem))
-        .setMessage(getString(R.string.dump_modem_question))
-        .setPositiveButton(
-            R.string.yes,
-            (dialog, which) -> {
-              new ProvisionModem();
-            })
-        .setNegativeButton(
-            R.string.cancel,
-            (dialog, which) -> {
-              dialog.dismiss();
-            })
-        .setCancelable(false)
-        .show();
+    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+    builder.setMessage(getString(R.string.dump_modem_question));
+    builder.setBackground(backgroundDrawable);
+    AlertDialog dialog = builder.create();
+    Window window = dialog.getWindow();
+    if (window != null) {
+      window.setWindowAnimations(R.style.DialogAnimation);
+    }
+
+    dialog.setOnShowListener(
+        dialogInterface -> {
+          Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+          positiveButton.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        });
+    dialog.setButton(
+        DialogInterface.BUTTON_POSITIVE,
+        getString(R.string.yes),
+        (dialogInterface, which) ->
+            handler.postDelayed(
+                () -> {
+                  new ProvisionModem();
+                  snackBar(getString(R.string.provision_modem));
+                  showBlur(false);
+                },
+                1000));
+    dialog.setOnCancelListener(
+        dialogInterface -> {
+          showBlur(false);
+          dialog.dismiss();
+        });
+    dialog.show();
   }
 
   public void dialogSensors() {
+    Drawable backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.dialog_background);
     showBlur(true);
-    new MaterialAlertDialogBuilder(MainActivity.this)
-        .setTitle(getString(R.string.provision_sensors))
-        .setMessage(getString(R.string.dump_sensors_question))
-        .setPositiveButton(
-            R.string.yes,
-            (dialog, which) -> {
-              new ProvisionSensor();
-            })
-        .setNegativeButton(
-            R.string.cancel,
-            (dialog, which) -> {
-              dialog.dismiss();
-            })
-        .setCancelable(false)
-        .show();
+    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+    builder.setMessage(getString(R.string.dump_sensors_question));
+
+    builder.setBackground(backgroundDrawable);
+    AlertDialog dialog = builder.create();
+    Window window = dialog.getWindow();
+    if (window != null) {
+      window.setWindowAnimations(R.style.DialogAnimation);
+    }
+
+    dialog.setOnShowListener(
+        dialogInterface -> {
+          Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+          positiveButton.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        });
+    dialog.setButton(
+        DialogInterface.BUTTON_POSITIVE,
+        getString(R.string.yes),
+        (dialogInterface, which) ->
+            handler.postDelayed(
+                () -> {
+                  new ProvisionSensor();
+                  snackBar(getString(R.string.provision_sensors));
+                  showBlur(false);
+                },
+                1000));
+    dialog.setOnCancelListener(
+        dialogInterface -> {
+          showBlur(false);
+          dialog.dismiss();
+        });
+    dialog.show();
   }
-  /*
-  public void showRootDialog() {
-    showBlur(false);
-    new MaterialAlertDialogBuilder(this)
-        .setTitle(R.string.error_title)
-        .setMessage(R.string.need_root_message)
-        .setPositiveButton(R.string.exit, (dialog, which) -> finish())
-        .setCancelable(false)
-        .show();
-  }*/
+
+  public void selectUefiDialog() {
+    Drawable backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.dialog_background);
+    showBlur(true);
+    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+    if (selecteduefi == null) {
+      builder.setMessage("Select UEFI from storage");
+    } else {
+      builder.setMessage("Flash " + selecteduefi + " now?");
+    }
+    builder.setBackground(backgroundDrawable);
+    AlertDialog dialog = builder.create();
+    Window window = dialog.getWindow();
+    if (window != null) {
+      window.setWindowAnimations(R.style.DialogAnimation);
+    }
+    dialog.setOnShowListener(
+        dialogInterface -> {
+          Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+          Button selectbutton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+          positiveButton.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        });
+
+    dialog.setButton(
+        DialogInterface.BUTTON_POSITIVE,
+        "Flash",
+        (dialogInterface, which) ->
+            handler.postDelayed(
+                () -> {
+                  if (selecteduefi == null) {
+                    snackBar("Selected UEFI from storage first before flashing it");
+                  } else {
+                    try {
+                      Command.executeCommand(
+                          "dd if=" + selecteduefi + "/" + uefi + " of=/dev/block/by-name/boot");
+                    } catch (Exception error) {
+                      error.printStackTrace();
+                    }
+                    snackBar("Selected UEFI has been flashed into boot partitions");
+                  }
+                  showBlur(false);
+                },
+                1000));
+
+    dialog.setButton(
+        DialogInterface.BUTTON_NEUTRAL,
+        "Select",
+        (dialogInterface, which) -> {
+          Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+          intent.setType("*/*");
+          startActivityForResult(intent, PICK_IMAGE_REQUEST);
+          x.dashboard.tvUefiVersion.setText(
+              String.format(getString(R.string.uefi_version), selecteduefi));
+          x.dashboard.tvUefiVersion.invalidate();
+          showBlur(false);
+        });
+
+    dialog.setOnCancelListener(
+        dialogInterface -> {
+          showBlur(false);
+          dialog.dismiss();
+        });
+    dialog.show();
+  }
+
+  private static final int PICK_IMAGE_REQUEST = 1;
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == PICK_IMAGE_REQUEST
+        && resultCode == RESULT_OK
+        && data != null
+        && data.getData() != null) {
+      Uri selectedFileUri = data.getData();
+      String imagePath = selectedFileUri.getPath();
+      selecteduefi = imagePath;
+      x.mainbutton.tvSelectUefiSubtitle.setText("UEFI Selected path:\n" + selecteduefi);
+      x.dashboard.tvUefiVersion.setText(
+          String.format(getString(R.string.uefi_version), selecteduefi));
+    }
+  }
+
+  public void snackBar(String msg) {
+    Snackbar snackbar = Snackbar.make(x.mainview, msg, Snackbar.LENGTH_LONG);
+    snackbar.show();
+  }
 }

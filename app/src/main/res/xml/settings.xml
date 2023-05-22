@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <PreferenceCategory
+    android:layout="@layout/preference_layout_top"
+    android:title="About">
+
+    <androidx.preference.Preference
+      android:key="@string/key_about"
+      android:title="Package Informations"
+      android:layout="@layout/preference_layout_middle" />
+
+    <androidx.preference.Preference
+      android:key="@string/key_credits"
+      android:title="Contributors"
+      android:summary="People who helping me to build this apps and reference"
+      android:icon="@drawable/ic_contributors"
+      android:layout="@layout/preference_layout_bottom" />
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    android:layout="@layout/preference_layout_top"
+    android:title="Support">
+
+    <androidx.preference.Preference
+      android:key="@string/key_channel"
+      android:layout="@layout/preference_layout_middle"
+      android:summary="Find latest news and information in our channel"
+      android:title="Telegram Channel" />
+
+    <androidx.preference.Preference
+      android:key="@string/key_group"
+      android:layout="@layout/preference_layout_middle"
+      android:summary="Discuss in our support group"
+      android:title="Support Group" />
+
+    <androidx.preference.Preference
+      android:key="@string/key_donate"
+      android:layout="@layout/preference_layout_bottom" />
+
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    android:layout="@layout/preference_layout_top"
+    android:title="Contacts">
+
+    <androidx.preference.Preference
+      android:key="@string/key_instagram"
+      android:layout="@layout/preference_layout_middle"
+      android:title="Find me on Instagram" />
+
+    <androidx.preference.Preference
+      android:key="@string/key_youtube"
+      android:layout="@layout/preference_layout_bottom"
+      android:title="Subscribe my YouTube Channel" />
+
+  </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

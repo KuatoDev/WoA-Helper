@@ -23,7 +23,7 @@
   <string name="ramvalue">DEVICE MEMORY : %sGB</string>
   <string name="paneltype">DEVICE PANEL : %s</string>
 
-  <string name="uefi_version">UEFI VERSION : %s</string>
+  <string name="uefi_version">UEFI : %s</string>
   <string name="backup_status">BOOT BACKUP : %s</string>
 
   <string name="woa">Renegade Project Devices</string>
@@ -41,12 +41,12 @@
   <string name="dismiss">DISMISS</string>
   <string name="please_wait">PLEASE WAIT...</string>
 
-  <string name="flash_uefi_title">FLASH UEFI</string>
+  <string name="flash_uefi_title">FLASH PREBUILT UEFI</string>
   <string name="flash_uefi_subtitle">UEFI for %1s touch panel of %2s GB variant is ready to flash</string>
   <string name="uefi_not_found">UEFI NOT FOUND</string>
   <string name="uefi_not_found_subtitle">Your devices is not supported</string>
 
-  <string name="flash_uefi_question">Flash UEFI for %1s touch panel for %2s GB of RAM variant?</string>
+  <string name="flash_uefi_question">Flash prebuilt UEFI for %1s touch panel for %2s GB of RAM variant?</string>
   <string name="youtube">YOUTUBE</string>
   <string name="paypal">DONATE</string>
   <string name="telegram">UPDATE</string>
@@ -55,8 +55,9 @@
   <string name="exit_app">Exit from applications?</string>
   <string name="cancel">Cancel</string>
   <string name="exit">Exit</string>
-  <string name="support_ntfs">MOUNT NTFS : %s</string>
+  <string name="support_ntfs">SUPPORT MOUNT NTFS : %s</string>
   <string name="windows_installed">WINDOWS INSTALLED : %s</string>
+  <string name="windows_mounted">WINDOWS MOUNTED : %s</string>>
   <string name="error">Error</string>
   <string name="provision_modem">Modem Provisioned Successfully...\nEnjoy LTE on Windows :)</string>
   <string name="provision_sensors">Sensors Provisioned Successfully...\nEnjoy working sensors on Windows :)</string>
@@ -69,4 +70,24 @@
   <string name="agree">I agree</string>
   <string name="not_agree">I do not agree</string>
   <string name="need_root_message">Root access is required. Please root your device to use this app.</string>
+  
+    <string name="key_about">About</string>
+  <string name="key_credits">Credits</string>
+  <string name="key_channel">KuatoDev Channel</string>
+  <string name="key_group">GreenForce Official Group</string>
+  <string name="key_donate">Donate</string>
+  <string name="key_instagram">Instagram</string>
+  <string name="key_youtube">Youtube</string>
+  <string name="donate">Buy me a coffee</string>
+  <string name="donate_summary">Support us with your donations ^_^</string>
+  <string name="donate_thank">We will appreciate any amount of your donations</string>
+  <string name="summary_about">Package Name : %1s\nVersion Name : %2s\nVersion Code : %3s</string>
+  <string name="credits">CREDITS</string>
+  <string name="created_by">Created by KuatoDev-Projects</string>
+  <string name="ida_bag">• Ida Bagus Rama Mahendra</string>
+  <string name="mobxprjkt">• mobxprjkt a.k.a c3eru@github</string>
+  <string name="nabil_aba">• Nabil ABA</string>
+  <string name="otang45">• Otang45</string>
+  <string name="stackoverflow">• StackOverflow community for code reference</string>
+  <string name="greenforce">• GreenForce™ Kernel developers and contributors</string>
 </resources>

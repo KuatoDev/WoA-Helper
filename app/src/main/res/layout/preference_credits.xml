@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_height="wrap_content"
+  android:layout_width="300dp"
+  android:animateLayoutChanges="true"
+  android:clickable="false"
+  android:alpha="10"
+  android:stateListAnimator="@anim/state_list_anim"
+  app:cardBackgroundColor="@color/white_translucent"
+  style="@style/Widget.Material3.CardView.Filled"
+  app:cardCornerRadius="@dimen/cardCornerRadius"
+  android:foreground="?android:attr/selectableItemBackground">
+
+  <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
+    android:layout_margin="24dp"
+    android:orientation="vertical">
+
+    <ImageView
+      android:layout_height="84dp"
+      android:layout_width="84dp"
+      android:adjustViewBounds="true"
+      android:scaleType="centerCrop"
+      android:src="@mipmap/ic_launcher"
+      android:layout_margin="12dp"
+      android:layout_gravity="center_horizontal" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:gravity="center"
+      android:textSize="18dp"
+      android:singleLine="true"
+      android:text="@string/app_name" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:gravity="center_horizontal"
+      android:textSize="13sp"
+      android:layout_gravity="center_horizontal"
+      android:text="@string/created_by"
+      android:textStyle="normal" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_marginTop="24dp"
+      android:textSize="14dp"
+      android:singleLine="true"
+      android:text="@string/credits"
+      android:textStyle="bold" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="@string/ida_bag" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="@string/mobxprjkt" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="@string/nabil_aba" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="@string/otang45" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="@string/stackoverflow" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="@string/greenforce" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:layout_marginTop="24dp"
+      android:textSize="14dp"
+      android:singleLine="true"
+      android:text="Donator"
+      android:textStyle="bold" />
+
+    <TextView
+      android:fontFamily="@font/sanfranciscoprorounded"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:textSize="13sp"
+      android:layout_marginLeft="20dp"
+      android:text="- John Murray" />
+
+  </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

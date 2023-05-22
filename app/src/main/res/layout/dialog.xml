@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   xmlns:app="http://schemas.android.com/apk/res-auto"
-   xmlns:tools="http://schemas.android.com/tools"
-   android:layout_height="match_parent"
-   android:layout_width="match_parent"
-   android:animateLayoutChanges="true"
-   android:background="?attr/colorSurface"
-   android:clickable="false"
-   android:layout_margin="4dp"
-   android:stateListAnimator="@anim/state_list_anim"
-   app:cardCornerRadius="@dimen/cardCornerRadius"
-   android:foreground="?android:attr/selectableItemBackground">
-
-  <LinearLayout
-     android:layout_height="match_parent"
-     android:layout_width="match_parent"
-     android:background="@android:color/transparent"
-     android:gravity="center"
-     android:layout_margin="16dp"
-     android:orientation="vertical">
-
-    <TextView
-       android:layout_height="wrap_content"
-       android:layout_width="wrap_content"
-       android:padding="24dp"
-       android:id="@+id/messages" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="?attr/colorSurface"
+    android:clickable="false"
+    android:layout_margin="4dp"
+    android:stateListAnimator="@anim/state_list_anim"
+    app:cardCornerRadius="@dimen/cardCornerRadius"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
-       android:layout_height="wrap_content"
-       android:layout_width="match_parent"
-       android:gravity="center"
-       android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
-      <com.google.android.material.button.MaterialButton
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:animateLayoutChanges="true"
-         app:backgroundTint="?attr/colorAccent"
-         android:layout_marginHorizontal="2dp"
-         app:cornerRadius="@dimen/parentMargin"
-         android:clipToOutline="true"
-         android:stateListAnimator="@anim/state_list_anim"
-         style="@style/Widget.MaterialComponents.Button"
-         android:layout_weight="1"
-         android:id="@+id/yes"
-         android:textStyle="bold" />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="24dp"
+            android:id="@+id/messages" />
 
-      <com.google.android.material.button.MaterialButton
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:animateLayoutChanges="true"
-         app:backgroundTint="?attr/colorAccent"
-         android:layout_marginHorizontal="2dp"
-         app:cornerRadius="@dimen/parentMargin"
-         android:clipToOutline="true"
-         android:stateListAnimator="@anim/state_list_anim"
-         style="@style/Widget.MaterialComponents.Button"
-         android:layout_weight="1"
-         android:id="@+id/dismiss"
-         android:textStyle="bold" />
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:animateLayoutChanges="true"
+                app:backgroundTint="?attr/colorAccent"
+                android:layout_marginHorizontal="2dp"
+                app:cornerRadius="@dimen/parentMargin"
+                android:clipToOutline="true"
+                android:stateListAnimator="@anim/state_list_anim"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_weight="1"
+                android:id="@+id/yes"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:animateLayoutChanges="true"
+                app:backgroundTint="?attr/colorAccent"
+                android:layout_marginHorizontal="2dp"
+                app:cornerRadius="@dimen/parentMargin"
+                android:clipToOutline="true"
+                android:stateListAnimator="@anim/state_list_anim"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_weight="1"
+                android:id="@+id/dismiss"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-  </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
