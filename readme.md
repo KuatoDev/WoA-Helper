@@ -12,10 +12,11 @@ Beta. Most of the feature works, but some cases may do not work. read [requireme
 
 #### Features
 - [x] Backup Android Boot ```will be stored in internal storage```
-- [x] Flash UEFI ```to use the UEFI flashing feature, you need to place the UEFI image to /sdcard/UEFI/```
+- [x] Flash Prebuilt UEFI ```v2.1.0```
+- [x] Flash Selected UEFI UEFI ```Pick UEFI from storage```
 - [x] Dump Sensors to Windows Partition 
 - [x] Provisioning Modem
-- [x] Quick Boot to Windows
+- [x] Quick Boot to Windows ```Only supported prebuilt UEFI v2.1.0```
 
 ## Requirements
 <details> 
