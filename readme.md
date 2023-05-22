@@ -13,7 +13,7 @@ Beta. Most of the feature works, but some cases may do not work. read [requireme
 #### Features
 - [x] Backup Android Boot ```will be stored in internal storage```
 - [x] Flash NTFS-3G Module ```Use this feature if your ROM does not support to mount NTFS```
-- [x] Flash Prebuilt UEFI ```v2.1.0```
+- [x] Flash Prebuilt UEFI ```v2.4.3```
 - [x] Flash Selected UEFI ```Pick UEFI from storage```
 - [x] Provision Sensors to Windows Partition 
 - [x] Provision Modem1st and Modem2st
