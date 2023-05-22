@@ -13,7 +13,7 @@ Beta. Most of the feature works, but some cases may do not work. read [requireme
 #### Features
 - [x] Backup Android Boot ```will be stored in internal storage```
 - [x] Flash Prebuilt UEFI ```v2.1.0```
-- [x] Flash Selected UEFI UEFI ```Pick UEFI from storage```
+- [x] Flash Selected UEFI ```Pick UEFI from storage```
 - [x] Dump Sensors to Windows Partition 
 - [x] Provisioning Modem
 - [x] Quick Boot to Windows ```Only supported prebuilt UEFI v2.1.0```
