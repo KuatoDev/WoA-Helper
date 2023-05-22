@@ -27,10 +27,6 @@ android {
         release {
             v1SigningEnabled true        
             v2SigningEnabled true
-            storeFile file("/storage/emulated/0/AndroidIDEProjects/KuatoDev.jks")
-            storePassword "nim13100472"
-            keyAlias "KuatoDev"
-            keyPassword "nim13100472"
         }
     }
     
