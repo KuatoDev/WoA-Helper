@@ -23,11 +23,7 @@ android {
         ignoreWarnings true
         checkDependencies true
     }
-    signingConfigs {
-        release {
-            v1SigningEnabled true        
-            v2SigningEnabled true
-        }
+   
     }
     
     buildTypes {
